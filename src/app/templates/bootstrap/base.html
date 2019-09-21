@@ -1,0 +1,49 @@
+{% block doc -%}
+<!doctype html>
+<!--TODO: SET LANG VAR -->
+<html {% block html_attribs %} lang="he" {% endblock html_attribs %}>
+{%- block html %}
+	<head>
+    {%- block head %}
+        <title>{% block title %}{{app_name}}{% endblock %}</title>
+        {%- block metas %}
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {%- endblock metas %}
+        {%- block styles %}
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" crossorigin="anonymous">
+            <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/styles.css') }}">
+        {%- endblock styles %}
+    {%- endblock head %}
+	</head>
+
+    <body {% block body_attribs %}{% endblock body_attribs %} class="text-right">
+    {% block body -%}
+        {% include "bootstrap/nav_main.html" %}
+        <div class="container container-fluid">
+            {% block content -%}
+
+			{%- endblock content %}
+        </div>
+
+
+        {% block scripts %}
+            <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+            {% include "bootstrap/base_scripts.html" %}
+        {%- endblock scripts %}
+    {%- endblock body %}
+    </body>
+
+{%- endblock html %}
+</html>
+{% endblock doc -%}
+
+
+
+
+
+

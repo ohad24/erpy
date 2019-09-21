@@ -1,0 +1,36 @@
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item {%- if request.path=='/home' %} active {% endif %}"><a class="nav-link" href="{{url_for('home')}}">בית</a></li>
+            </ul>
+
+            <ul class="navbar-nav ml">
+                {% if current_user and current_user.is_authenticated %}
+                    {% if current_user.permission_level == 99 %}
+                        <li class="nav-item"><a class="nav-link" href="#"> {{ hostname }}</a></li>
+                        <li class="nav-item dropdown">
+                            <li class="nav-item"><a class="nav-link text-info" href="#"><i class="fas fa-code-branch"></i> {{ active_branch }}</a></li>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ניהול </a>
+                            <div class="dropdown-menu text-right" aria-labelledby="navbarDropdown" style="left: auto;">
+                                <a class="dropdown-item" href="{#url_for('versions')#}">גרסאות</a>
+                                <a class="dropdown-item" href="#">Git</a>
+                            </div>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="{# url_for('p_info', user_name = current_user.username) #}#">
+                            <i class="fas fa-user"></i> {{ current_user.username }}
+                        </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> יציאה</a></li>
+                {% else %}
+                    <li class="nav-item {%- if request.path=='/login' %} active {% endif %}"><a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> כניסה</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+{%- endblock navbar %}

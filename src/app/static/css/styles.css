@@ -1,0 +1,20 @@
+body {
+    /*background: linear-gradient(gainsboro, gray) no-repeat;*/
+    /*background: #c8ffaf;*/
+    min-height: 100%;
+    background-size: cover;
+}
+
+html, body {height:100%;overflow:auto}
+
+.container {
+    /*background-color: rgba(37, 221, 178, 0.64);*/
+    direction: rtl;
+    min-height: 100%;
+    margin-top: 10px;
+    /*height: 100%;*/
+}
+
+.navbar {
+    direction: rtl;
+}

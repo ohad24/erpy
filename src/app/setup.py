@@ -67,15 +67,15 @@ class User(UserMixin):
         self.id = sql_data['user_id']
         self.username = sql_data['user_name']
         self.user_class_id = sql_data['user_class_id']
-        # self.user_class_name = sql_data['user_class_name']
-        # self.permission_level = sql_data['permission_level']
+        self.user_class_name = sql_data['user_class_name']
+        self.permission_level = sql_data['permission_level']
         self.first_name = sql_data['first_name']
         self.last_name = sql_data['last_name']
         self.email = sql_data['email']
         self.phone = sql_data['phone']
-        # self.sex = sql_data['sex']
-        # self.is_enable = sql_data['is_enable']
-        # self.is_auth = sql_data['is_auth']
+        self.sex = sql_data['sex']
+        self.is_enable = sql_data['is_enable']
+        self.is_auth = sql_data['is_auth']
         self.full_name = self.first_name + ' ' + self.last_name
 
 

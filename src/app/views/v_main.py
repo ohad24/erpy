@@ -3,11 +3,13 @@ from tools import psql_api
 from flask_login import current_user, login_required, logout_user, login_user
 from queries import q_main
 
+
 @app.context_processor
 def load_data():  # no content
     return {"app_name": "erpy",
             "hostname": hostname,
             "env": app.env}
+
 
 @app.route('/')
 def index():
@@ -27,7 +29,6 @@ def home():
 def login():
     pg_api = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
-    #     app.logger.debug(flask.session['next'])  # the get the create case form data
         username = flask.request.form['username']
         # print(flask.request.form)
         # password = passwords.hash_password(flask.request.form['password'])
@@ -48,7 +49,7 @@ def login():
         else:
             flask.flash('התחברות נכשלה', 'error')
     # flask.session['next'] = flask.request.args.get('next', None)
-    if not 'url_args' in flask.session:
+    if 'url_args' not in flask.session:
         flask.session['url_args'] = dict(flask.request.args)
         if 'next' in flask.session['url_args']:
             flask.session['url_args'].pop('next')
@@ -64,9 +65,10 @@ def redirect_dest(fallback):
         dest_url = flask.url_for(dest, **d)
         flask.session.pop('url_args', None)
     except Exception as e:
-        print(e)
+        # print(e)
         return flask.redirect(fallback)
     return flask.redirect(dest_url)
+
 
 # logout route
 @app.route('/logout')

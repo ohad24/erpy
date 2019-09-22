@@ -1,4 +1,4 @@
-get_user_details = """SELECT * FROM users
+get_user_details = """SELECT * FROM v_get_user_details
                       WHERE user_id = %(user_id)s"""
 
 # for login route

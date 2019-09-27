@@ -82,3 +82,13 @@ class User(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User(user_id)
+
+
+@app.context_processor
+def load_data():  # no content]
+    url = str(flask.request.url_rule)
+    sub_route = url.split('/')[1]
+    return {"app_name": "erpy",
+            "hostname": hostname,
+            "env": app.env,
+            "sub_route": sub_route}

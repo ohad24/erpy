@@ -5,7 +5,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item {%- if request.path=='/home' %} active {% endif %}"><a class="nav-link" href="{{url_for('home')}}">בית</a></li>
+                <li class="nav-item {%- if request.path=='/index.home' %} active {% endif %}"><a class="nav-link" href="{{url_for('index.home')}}">בית</a></li>
+                <li class="nav-item {%- if request.path=='/hd.home' %} active {% endif %}"><a class="nav-link" href="{{url_for('hd.hd_home')}}">הלפדסק</a></li>
             </ul>
 
             <ul class="navbar-nav ml">
@@ -26,9 +27,9 @@
                             <i class="fas fa-user"></i> {{ current_user.username }}
                         </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> יציאה</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('index.logout') }}"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> יציאה</a></li>
                 {% else %}
-                    <li class="nav-item {%- if request.path=='/login' %} active {% endif %}"><a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> כניסה</a></li>
+                    <li class="nav-item {%- if request.path=='/login' %} active {% endif %}"><a class="nav-link" href="{{ url_for('index.login') }}"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> כניסה</a></li>
                 {% endif %}
             </ul>
         </div>

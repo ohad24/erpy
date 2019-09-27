@@ -1,22 +1,17 @@
-from setup import app, hostname, flask, csrf, get_db, User
+from setup import csrf, get_db, User, app, flask
 from tools import psql_api
 from flask_login import current_user, login_required, logout_user, login_user
 from queries import q_main
 
-
-@app.context_processor
-def load_data():  # no content
-    return {"app_name": "erpy",
-            "hostname": hostname,
-            "env": app.env}
+index_blueprint = flask.Blueprint('index', 'index', template_folder='templates')
 
 
-@app.route('/')
+@index_blueprint.route('/')
 def index():
-    return flask.redirect(flask.url_for('home'))
+    return flask.redirect(flask.url_for('index.home'))
 
 
-@app.route('/home')
+@index_blueprint.route('/home')
 def home():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query('select now()', one=True)
@@ -25,7 +20,7 @@ def home():
 
 
 # login route
-@app.route('/login', methods=["GET", "POST"])
+@index_blueprint.route('/login', methods=["GET", "POST"])
 def login():
     pg_api = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
@@ -45,7 +40,7 @@ def login():
             # if flask.session['next']:
     #             return flask.redirect(flask.url_for(flask.session['next']))
     #         return flask.redirect(flask.url_for('index'))
-            return redirect_dest(fallback=flask.url_for('index'))
+            return redirect_dest(fallback=flask.url_for('index.home'))
         else:
             flask.flash('התחברות נכשלה', 'error')
     # flask.session['next'] = flask.request.args.get('next', None)
@@ -71,10 +66,13 @@ def redirect_dest(fallback):
 
 
 # logout route
-@app.route('/logout')
+@index_blueprint.route('/logout')
 @login_required
 def logout():
     # user_instances.remove(current_user.id)
     logout_user()
     flask.flash('יצאת בהצלחה', 'success')
-    return flask.redirect(flask.url_for('index'))
+    return flask.redirect(flask.url_for('index.home'))
+
+
+app.register_blueprint(index_blueprint)

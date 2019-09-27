@@ -1,5 +1,5 @@
 from setup import app
-from views import v_main
+from views import v_main, v_help_desk
 import os
 
 

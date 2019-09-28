@@ -8,9 +8,9 @@
                 <a class="nav-link" href="#">פניות פתוחות</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">הגדרות&nbsp</a>
+                <a class="nav-link dropdown-toggle {%- if request.path in ('/hd/setup-hd-categories') %} active {% endif %}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">הגדרות&nbsp</a>
                 <div class="dropdown-menu dropdown-menu-right text-right">
-                    <a class="dropdown-item" href="#">סיווגים</a>
+                    <a class="dropdown-item" href="{{url_for('hd.setup_hd_categories')}}">סיווגים</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <a class="dropdown-item" href="#">Something else here</a>
                     <div class="dropdown-divider"></div>

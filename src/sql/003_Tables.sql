@@ -69,3 +69,15 @@ CREATE TABLE teams_assignment (
     team_id INT REFERENCES teams (team_id) NOT NULL,
     user_id INT REFERENCES users (user_id) NOT NULL
 );
+
+
+DROP TABLE IF EXISTS hd_ticket_category;
+CREATE TABLE hd_ticket_category(
+    id SERIAL PRIMARY KEY NOT NULL,
+    parent_id INT DEFAULT 0 NOT NULL,
+    level INT NOT NULL,
+    category_name VARCHAR(100),
+    active BOOLEAN DEFAULT true NOT NULL,
+    create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    create_by INT DEFAULT 0 NOT NULL
+);

@@ -1,0 +1,65 @@
+{% extends "bootstrap/base.html" %}
+{% block content %}
+    <h4>הוספת סיווג חדש</h4>
+    <form id="add-category-form" method="POST" class="needs-validation" action="{{ url_for('hd.setup_hd_categories', next=request.args.get('next')) }}" novalidate>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="hd_category_name">שם קטגוריה</label>
+                    <input type="text" class="form-control" name="hd_category_name" id="hd_category_name" aria-describedby="hd_category_name_help" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hd_category_level">רמה</label>
+                    <select class="form-control" name="hd_category_level" id="hd_category_level">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group" id="fg_hd_category_parent_id">
+                    <label for="hd_category_parent_id">קטגורית אב</label>
+                    <select class="form-control" name="hd_category_parent_id" id="hd_category_parent_id" required>
+                        <option>#</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <button type="submit" class="btn btn-primary">הוסף</button>
+    </form>
+    <br>
+
+    <h4>סיווגים קיימים</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">מזהה אב</th>
+                <th scope="col">רמה</th>
+                <th scope="col">שם</th>
+                <th scope="col">אבות</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%  for row in category_data %}
+                <tr>
+                    <th scope="row">{{ row['id'] }}</th>
+                    <td>{{ row['parent_id'] }}</td>
+                    <td>{{ row['level'] }}</td>
+                    <td>{{ row['category_name'] }}</td>
+                    <td>{{ row['ancestry'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/hd/setup_category.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
+{%- endblock scripts %}

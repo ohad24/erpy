@@ -2,7 +2,7 @@
     {% if sub_route == "hd" %}
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="nav-link" href="{{url_for('hd.hd_home')}}">ראשי</a>
+                <a class="nav-link {%- if request.path=='/hd/home' %} active {% endif %}" href="{{url_for('hd.hd_home')}}">ראשי</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">פניות פתוחות</a>

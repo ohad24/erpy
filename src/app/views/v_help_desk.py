@@ -32,11 +32,30 @@ def setup_hd_categories():
                                  category_data=db.lod())
 
 
+@hd.route('/open-hd-ticket', methods=["GET", "POST"])
+def open_hd_ticket():
+    db = psql_api.PostgresAPI(get_db())
+    db.exec_query('SELECT id, category_name FROM ref_hd_ticket_category WHERE level = 1')
+    cat_1_l = db.lod()
+    return flask.render_template('open_ticket.html',
+                                 cat_1_l=cat_1_l)
+
+
 @hd.route('/_update_select_category', methods=['GET'])
 def update_select_category():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_top_ticket_category,
                   {'level': flask.request.args['hd_category_level']})
+    return flask.jsonify(db.lod())
+
+
+@hd.route('/_get_children_category', methods=['GET'])
+def get_children_category():
+    db = psql_api.PostgresAPI(get_db())
+    db.exec_query(q_hd.get_children_cat_sql,
+                  {'parent_id': flask.request.args['cat_id'],
+                   'level': flask.request.args['cat_level']
+                   })
     return flask.jsonify(db.lod())
 
 

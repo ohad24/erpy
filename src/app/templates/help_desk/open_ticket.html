@@ -1,0 +1,42 @@
+{% extends "bootstrap/base.html" %}
+{% block content %}
+    <h2>פתיחת פניה</h2>
+    <form id="add-category-form" method="POST" class="needs-validation" action="{{ url_for('hd.setup_hd_categories', next=request.args.get('next')) }}" novalidate>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="hd_cat_1">סיווג 1</label>
+                    <select class="form-control" name="hd_cat_1" id="hd_cat_1" required>
+                        <option selected value disabled> -- ללא -- </option>
+                        {% for opt in cat_1_l %}
+                            <option value="{{ opt['id'] }}">{{ opt['category_name'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hd_cat_2">סיווג 2</label>
+                    <select class="form-control" name="hd_cat_2" id="hd_cat_2" required>
+                        <option selected value disabled> -- ללא -- </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hd_cat_3">סיווג 3</label>
+                    <select class="form-control" name="hd_cat_3" id="hd_cat_3" required>
+                        <option selected value disabled> -- ללא -- </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+{{super()}}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/hd/open_ticket.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
+{%- endblock scripts %}

@@ -71,8 +71,8 @@ CREATE TABLE teams_assignment (
 );
 
 
-DROP TABLE IF EXISTS hd_ticket_category;
-CREATE TABLE hd_ticket_category(
+DROP TABLE IF EXISTS ref_hd_ticket_category;
+CREATE TABLE ref_hd_ticket_category (
     id SERIAL PRIMARY KEY NOT NULL,
     parent_id INT DEFAULT 0 NOT NULL,
     level INT NOT NULL,
@@ -81,4 +81,28 @@ CREATE TABLE hd_ticket_category(
     active BOOLEAN DEFAULT true NOT NULL,
     create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     create_by INT DEFAULT 0 NOT NULL
+);
+
+
+DROP TABLE IF EXISTS ref_hd_ticket_status;
+CREATE TABLE ref_hd_ticket_status (
+    ticket_status_id SERIAL PRIMARY KEY NOT NULL,
+    ticket_status_text VARCHAR(30)
+);
+
+
+DROP TABLE IF EXISTS hd_tickets;
+CREATE TABLE hd_tickets (
+    id SERIAL PRIMARY KEY NOT NULL,
+    ticket_status_id INT REFERENCES ref_hd_ticket_status (ticket_status_id) NOT NULL,
+    category3id INT REFERENCES ref_hd_ticket_category (id) NOT NULL,
+    open_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    due_orig_date TIMESTAMP WITH TIME ZONE NOT NULL,
+    due_manager_date TIMESTAMP WITH TIME ZONE,
+    due_manager_by INT REFERENCES users (user_id),
+    close_date TIMESTAMP WITH TIME ZONE,
+    close_by INT REFERENCES users (user_id),
+    --CloseReasonId
+    create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    create_by INT REFERENCES users (user_id) NOT NULL
 );

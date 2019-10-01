@@ -27,6 +27,13 @@
                     </select>
                 </div>
             </div>
+            <div class="col">
+                <div class="form-group" id="fg_hd_category_sla_days">
+                    <label for="hd_category_sla_days">ימים לטיפול</label>
+                    <input type="number" min="1" class="form-control" name="hd_category_sla_days" id="hd_category_sla_days" aria-describedby="hd_category_sla_days_help" required>
+                    <small id="hd_category_sla_days_help" class="form-text text-muted">גדול מ 0</small>
+                </div>
+            </div>
         </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <button type="submit" class="btn btn-primary">הוסף</button>

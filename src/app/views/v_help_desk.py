@@ -24,7 +24,8 @@ def setup_hd_categories():
         db.exec_query(q_hd.ins_ticket_category,
                       {'parent_id': 0 if int(form_data['hd_category_level']) == 1 else form_data['hd_category_parent_id'],
                        'level': form_data['hd_category_level'],
-                       'category_name': form_data['hd_category_name']})
+                       'category_name': form_data['hd_category_name'],
+                       'sla_days': form_data['hd_category_sla_days'] if int(form_data['hd_category_level']) == 3 else 0})
         return flask.redirect(flask.url_for('hd.setup_hd_categories'))
     db.exec_query(q_hd.get_all_ticket_category)
     return flask.render_template('setup_category.html',

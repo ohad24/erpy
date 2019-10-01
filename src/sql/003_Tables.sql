@@ -77,6 +77,7 @@ CREATE TABLE hd_ticket_category(
     parent_id INT DEFAULT 0 NOT NULL,
     level INT NOT NULL,
     category_name VARCHAR(100),
+    sla_days INT DEFAULT 0 NOT NULL,
     active BOOLEAN DEFAULT true NOT NULL,
     create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     create_by INT DEFAULT 0 NOT NULL

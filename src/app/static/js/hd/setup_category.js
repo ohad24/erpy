@@ -5,7 +5,18 @@ $(document).ready(function() {
         if (hd_category_level == 1) {
             $('#fg_hd_category_parent_id').hide();
             $('#hd_category_parent_id').prop('required',false);
+
+            $('#fg_hd_category_sla_days').hide();
+            $('#hd_category_sla_days').prop('required',false);
+
         } else {
+            if (hd_category_level == 3) {
+                $('#fg_hd_category_sla_days').show();
+                $('#hd_category_sla_days').prop('required',true);
+            } else if (hd_category_level == 2) {
+                $('#fg_hd_category_sla_days').hide();
+                $('#hd_category_sla_days').prop('required',false);
+            }
             $('#fg_hd_category_parent_id').show();
             $('#hd_category_parent_id').prop('required',true);
             $.getJSON($SCRIPT_ROOT + '/hd/_update_select_category', {

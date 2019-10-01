@@ -1,5 +1,6 @@
-ins_ticket_category = """INSERT INTO hd_ticket_category (parent_id, level, category_name)
-                            VALUES (%(parent_id)s, %(level)s, %(category_name)s)"""
+ins_ticket_category = """INSERT INTO hd_ticket_category (parent_id, level, category_name, sla_days)
+                            VALUES (%(parent_id)s, %(level)s,
+                                    %(category_name)s, %(sla_days)s)"""
 
 get_top_ticket_category = """SELECT id, category_name FROM hd_ticket_category
                              WHERE level = %(level)s - 1"""

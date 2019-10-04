@@ -29,3 +29,8 @@ ins_ticket = """INSERT INTO hd_tickets (ticket_status_id, category3id, open_date
                     
 ins_ticket_note = """INSERT INTO hd_ticket_notes (ticket_id, ticket_note_id, note_text, create_by) 
                      VALUES (%(ticket_id)s, %(ticket_note_id)s, %(note_text)s, %(user_id)s)"""
+
+ins_ticket_file = """INSERT INTO hd_ticket_files (ticket_id, file_name, gen_file_name, 
+                                                   mimetype, file_size, create_by)
+                      VALUES (%(ticket_id)s, %(file_name)s, %(gen_file_name)s,
+                              %(mimetype)s, %(file_size)s, %(create_by)s)"""

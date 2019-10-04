@@ -12,6 +12,11 @@ from queries import q_main
 
 hostname = socket.gethostname()
 
+l_directory = ['users_files/hd']
+for dir in l_directory:
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+
 app = flask.Flask('erpy')
 app.secret_key = os.environ['ERPY_APP_KEY']
 

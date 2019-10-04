@@ -124,3 +124,16 @@ CREATE TABLE hd_ticket_notes (
     create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     create_by INT REFERENCES users (user_id) NOT NULL
 );
+
+
+DROP TABLE IF EXISTS hd_ticket_files;
+CREATE TABLE hd_ticket_files (
+    id SERIAL PRIMARY KEY NOT NULL,
+    ticket_id INT REFERENCES hd_tickets (id) NOT NULL,
+    file_name VARCHAR(200) NOT NULL,
+    gen_file_name VARCHAR(20) NOT NULL,
+    mimetype VARCHAR(200),
+    file_size BIGINT NOT NULL,
+    create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    create_by INT REFERENCES users (user_id) NOT NULL
+);

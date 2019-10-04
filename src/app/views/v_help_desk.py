@@ -35,6 +35,18 @@ def setup_hd_categories():
 @hd.route('/open-hd-ticket', methods=["GET", "POST"])
 def open_hd_ticket():
     db = psql_api.PostgresAPI(get_db())
+    if flask.request.method == 'POST':
+        form_data = flask.request.form
+        # print(form_data)
+        db.exec_query(q_hd.ins_ticket,
+                      {'category3id': form_data['hd_cat_3'],
+                       'user_id': current_user.id}, one=True)
+        ticket_id = db.lod()['ticket_id']
+        db.exec_query(q_hd.ins_ticket_note,
+                      {'ticket_id': ticket_id, 'ticket_note_id': 1,
+                       'note_text': form_data['hd_ticket_note'],
+                       'user_id': current_user.id})
+        return flask.redirect(flask.url_for('hd.open_hd_ticket'))
     db.exec_query('SELECT id, category_name FROM ref_hd_ticket_category WHERE level = 1')
     cat_1_l = db.lod()
     return flask.render_template('open_ticket.html',

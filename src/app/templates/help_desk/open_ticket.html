@@ -1,7 +1,7 @@
 {% extends "bootstrap/base.html" %}
 {% block content %}
     <h2>פתיחת פניה</h2>
-    <form id="add-category-form" method="POST" class="needs-validation" action="{{ url_for('hd.setup_hd_categories', next=request.args.get('next')) }}" novalidate>
+    <form id="add-category-form" method="POST" class="needs-validation" action="{{ url_for('hd.open_hd_ticket', next=request.args.get('next')) }}" novalidate>
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -29,6 +29,27 @@
                         <option selected value disabled> -- ללא -- </option>
                     </select>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="hd_ticket_note">תיאור הפניה</label>
+                    <textarea class="form-control" id="hd_ticket_note" name="hd_ticket_note" rows="3" required></textarea>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hd_ticket_multi_file">בחירת קבצים מרובה</label>
+                    <input type="file" class="form-control-file" id="hd_ticket_multi_file" name="hd_ticket_multi_file" multiple>
+                    <small class="form-text text-muted">עד 3 קבצים, כל קובץ עד 5 מגה</small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <button type="submit" class="btn btn-primary">הוסף</button>
             </div>
         </div>
     </form>

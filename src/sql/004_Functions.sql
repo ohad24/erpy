@@ -20,3 +20,14 @@ RETURNS VARCHAR AS $$
 BEGIN
 RETURN first_name || ' ' || last_name;
 END$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION f_calc_orig_hd_ticket_sla_date(category3id INT)
+RETURNS DATE AS $$
+DECLARE v_due_orig_date DATE;
+BEGIN
+    SELECT now() + interval '1' day * sla_days INTO v_due_orig_date
+    FROM ref_hd_ticket_category
+    WHERE id = category3id;
+    RETURN v_due_orig_date;
+END $$ LANGUAGE plpgsql;

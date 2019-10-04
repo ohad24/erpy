@@ -91,6 +91,13 @@ CREATE TABLE ref_hd_ticket_status (
 );
 
 
+DROP TABLE IF EXISTS ref_hd_ticket_note;
+CREATE TABLE ref_hd_ticket_note (
+    ticket_note_id SERIAL PRIMARY KEY NOT NULL,
+    ticket_note_text VARCHAR(30)
+);
+
+
 DROP TABLE IF EXISTS hd_tickets;
 CREATE TABLE hd_tickets (
     id SERIAL PRIMARY KEY NOT NULL,
@@ -103,6 +110,17 @@ CREATE TABLE hd_tickets (
     close_date TIMESTAMP WITH TIME ZONE,
     close_by INT REFERENCES users (user_id),
     --CloseReasonId
+    create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    create_by INT REFERENCES users (user_id) NOT NULL
+);
+
+
+DROP TABLE IF EXISTS hd_ticket_notes;
+CREATE TABLE hd_ticket_notes (
+    id SERIAL PRIMARY KEY NOT NULL,
+    ticket_id INT REFERENCES hd_tickets (id) NOT NULL,
+    ticket_note_id INT REFERENCES ref_hd_ticket_note (ticket_note_id) NOT NULL,
+    note_text TEXT NOT NULL,
     create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     create_by INT REFERENCES users (user_id) NOT NULL
 );

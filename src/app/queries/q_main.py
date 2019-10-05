@@ -16,3 +16,6 @@ ins_user = """INSERT INTO users (user_name, user_class_id, first_name, last_name
 
 ins_teams_assignment = """INSERT INTO teams_assignment (team_id, user_id) 
                           VALUES (%(team_id)s, %(user_id)s)"""
+
+ins_team = """INSERT INTO teams (team_name, description) 
+              VALUES (%(team_name)s, %(team_desc)s)"""

@@ -1,8 +1,42 @@
 {% extends "bootstrap/base.html" %}
 {% block content %}
     <h2>ברוכים הבאים ל help desk</h2>
+    <h5>פניה חדשה</h5>
     <p>
         שלום, לפתיחת פניה לחץ
     <a href="{{url_for('hd.open_hd_ticket')}}">כאן</a>
     </p>
+
+    <hr>
+
+    <h5>הפניות שלי</h5>
+    <table class="table table table-striped table-hover table-sm table-responsive-md">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">סטטוס</th>
+                <th scope="col">סיווג ראשי</th>
+                <th scope="col">סיווג משני</th>
+                <th scope="col">סיווג שלישי</th>
+                <th scope="col">תאריך פתיחה</th>
+                <th scope="col">צפי לסיום</th>
+                <th scope="col">כמות קבצים</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in l_user_tickets %}
+                <tr>
+                    <th scope="row">{{ ticket['id'] }}</th>
+                    <td>{{ ticket['ticket_status_name'] }}</td>
+                    <td>{{ ticket['cat1_name'] }}</td>
+                    <td>{{ ticket['cat2_name'] }}</td>
+                    <td>{{ ticket['cat3_name'] }}</td>
+                    <td>{{ ticket['open_date'] }}</td>
+                    <td>{{ ticket['due_date'] }}</td>
+                    <td>{{ ticket['f_count'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

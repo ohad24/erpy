@@ -92,10 +92,10 @@ CREATE TABLE ref_hd_ticket_cat3_teams (
 );
 
 
-DROP TABLE IF EXISTS ref_hd_ticket_status;
+DROP TABLE IF EXISTS ref_hd_ticket_status CASCADE;
 CREATE TABLE ref_hd_ticket_status (
     ticket_status_id SERIAL PRIMARY KEY NOT NULL,
-    ticket_status_text VARCHAR(30)
+    ticket_status_name VARCHAR(30)
 );
 
 

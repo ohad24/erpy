@@ -38,3 +38,30 @@ ins_ticket_file = """INSERT INTO hd_ticket_files (ticket_id, file_name, gen_file
 
 ins_cat3_teams = """INSERT INTO ref_hd_ticket_cat3_teams (cat3_id, team_id)
                     VALUES (%(cat3_id)s, %(team_id)s)"""
+
+get_user_tickets = """
+    WITH file_count as (
+        SELECT ticket_id, count(*) as f_count FROM hd_ticket_files f
+        GROUP BY ticket_id
+    )
+    SELECT t.id,
+           t.ticket_status_id,
+           s.ticket_status_name,
+           f_heb_date(t.open_date) as open_date,
+           f_heb_date(COALESCE(t.due_manager_date, t.due_orig_date)) as due_date,
+           fc.f_count,
+           cat3.category_name AS cat3_name,
+           cat2.category_name AS cat2_name,
+           cat1.category_name AS cat1_name
+    FROM ref_hd_ticket_status s,
+         ref_hd_ticket_category cat3,
+         ref_hd_ticket_category cat2,
+         ref_hd_ticket_category cat1,
+         hd_tickets t
+    LEFT JOIN file_count fc ON t.id = fc.ticket_id
+    WHERE 1=1
+    AND t.ticket_status_id = s.ticket_status_id
+    AND t.category3id = cat3.id
+    AND cat3.parent_id = cat2.id
+    AND cat2.parent_id = cat1.id
+    AND t.create_by = %(user_id)s"""

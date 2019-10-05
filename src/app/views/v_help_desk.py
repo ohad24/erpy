@@ -9,9 +9,11 @@ hd = flask.Blueprint('hd', 'hd', url_prefix='/hd', template_folder='templates/he
 @hd.route('/home')
 def hd_home():
     db = psql_api.PostgresAPI(get_db())
-    db.exec_query('select now()', one=True)
-    d = db.lod()
-    return flask.render_template('hd_home.html', d=d['now'])
+    db.exec_query(q_hd.get_user_tickets,
+                  {'user_id': current_user.id})
+    l_user_tickets = db.lod()
+    return flask.render_template('hd_home.html',
+                                 l_user_tickets=l_user_tickets)
 
 
 @hd.route('/setup-hd-categories', methods=["GET", "POST"])

@@ -71,26 +71,26 @@ def logout():
 
 @index_blueprint.route('/users', methods=["GET", "POST"])
 def users():
-    pg_api = psql_api.PostgresAPI(get_db())
+    db = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
         fd = flask.request.form
-        pg_api.exec_query(q_main.ins_user, {
+        db.exec_query(q_main.ins_user, {
             'user_name': fd['username'], 'user_class_id': fd['user-class-select-list'],
             'first_name': fd['f_name'], 'last_name': fd['l_name'],
             'passkey': passwords.hash_password(fd['password']),
             'email': fd['email'], 'phone': fd['phone'], 'create_by': current_user.id}, one=True)
-        user_id = pg_api.lod()['user_id']
+        user_id = db.lod()['user_id']
         for ut in fd.getlist('teams-select-list'):
-            pg_api.exec_query(q_main.ins_teams_assignment, {'team_id': ut,
+            db.exec_query(q_main.ins_teams_assignment, {'team_id': ut,
                                                             'user_id': user_id})
         flask.flash('היוזר נוסף בהצלחה', 'success')
         return flask.redirect(flask.url_for('index.users'))
-    pg_api.exec_query('SELECT * FROM v_get_user_details')
-    l_users = pg_api.lod()
-    pg_api.exec_query('select user_class_id, user_class_name from ref_user_class')
-    l_user_class = pg_api.lod()
-    pg_api.exec_query('select team_id, team_name from teams')
-    l_teams = pg_api.lod()
+    db.exec_query(q_main.get_all_users)
+    l_users = db.lod()
+    db.exec_query(q_main.get_all_user_class)
+    l_user_class = db.lod()
+    db.exec_query(q_main.get_all_teams)
+    l_teams = db.lod()
     return flask.render_template('users.html',
                                  l_users=l_users,
                                  l_user_class=l_user_class,
@@ -99,16 +99,16 @@ def users():
 
 @index_blueprint.route('/teams', methods=["GET", "POST"])
 def teams():
-    pg_api = psql_api.PostgresAPI(get_db())
+    db = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
         fd = flask.request.form
-        pg_api.exec_query(q_main.ins_team,
+        db.exec_query(q_main.ins_team,
                           {'team_name': fd['team_name'],
                            'team_desc': fd['team_desc']})
         flask.flash('הקבוצה נפתחה בהצלחה', 'success')
         return flask.redirect(flask.url_for('index.teams'))
-    pg_api.exec_query('select * from teams')
-    l_teams = pg_api.lod()
+    db.exec_query(q_main.get_all_teams)
+    l_teams = db.lod()
     return flask.render_template('teams.html',
                                  l_teams=l_teams)
 

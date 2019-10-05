@@ -1,6 +1,7 @@
 ins_ticket_category = """INSERT INTO ref_hd_ticket_category (parent_id, level, category_name, sla_days)
                          VALUES (%(parent_id)s, %(level)s,
-                                 %(category_name)s, %(sla_days)s)"""
+                                 %(category_name)s, %(sla_days)s)
+                         RETURNING id"""
 
 get_top_ticket_category = """SELECT id, category_name FROM ref_hd_ticket_category
                              WHERE level = %(level)s - 1"""
@@ -34,3 +35,6 @@ ins_ticket_file = """INSERT INTO hd_ticket_files (ticket_id, file_name, gen_file
                                                    mimetype, file_size, create_by)
                       VALUES (%(ticket_id)s, %(file_name)s, %(gen_file_name)s,
                               %(mimetype)s, %(file_size)s, %(create_by)s)"""
+
+ins_cat3_teams = """INSERT INTO ref_hd_ticket_cat3_teams (cat3_id, team_id)
+                    VALUES (%(cat3_id)s, %(team_id)s)"""

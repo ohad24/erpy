@@ -1,6 +1,11 @@
 get_user_details = """SELECT * FROM v_get_user_details
                       WHERE user_id = %(user_id)s"""
 
+get_all_users = """SELECT * FROM v_get_user_details"""
+
+get_all_user_class = """SELECT user_class_id, user_class_name 
+                        FROM ref_user_class"""
+
 # for login route
 get_user_id = """SELECT user_id FROM users
                  WHERE (user_name = %(username)s OR email = %(username)s)
@@ -19,3 +24,5 @@ ins_teams_assignment = """INSERT INTO teams_assignment (team_id, user_id)
 
 ins_team = """INSERT INTO teams (team_name, description) 
               VALUES (%(team_name)s, %(team_desc)s)"""
+
+get_all_teams = """select team_id, team_name, description from teams"""

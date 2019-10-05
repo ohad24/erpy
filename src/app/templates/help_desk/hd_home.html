@@ -1,5 +1,8 @@
 {% extends "bootstrap/base.html" %}
 {% block content %}
     <h2>ברוכים הבאים ל help desk</h2>
-    <p>שלום</p>
+    <p>
+        שלום, לפתיחת פניה לחץ
+    <a href="{{url_for('hd.open_hd_ticket')}}">כאן</a>
+    </p>
 {% endblock %}

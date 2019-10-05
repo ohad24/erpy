@@ -84,6 +84,14 @@ CREATE TABLE ref_hd_ticket_category (
 );
 
 
+DROP TABLE IF EXISTS ref_hd_ticket_cat3_teams;
+CREATE TABLE ref_hd_ticket_cat3_teams (
+    id SERIAL PRIMARY KEY NOT NULL,
+    cat3_id INT REFERENCES ref_hd_ticket_category (id) NOT NULL,
+    team_id INT REFERENCES teams (team_id) NOT NULL
+);
+
+
 DROP TABLE IF EXISTS ref_hd_ticket_status;
 CREATE TABLE ref_hd_ticket_status (
     ticket_status_id SERIAL PRIMARY KEY NOT NULL,

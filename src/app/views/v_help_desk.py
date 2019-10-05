@@ -1,7 +1,7 @@
 from setup import csrf, get_db, User, app, flask
-from tools import psql_api, tools
 from flask_login import current_user, login_required, logout_user, login_user
-from queries import q_hd
+from queries import q_hd, q_main
+from tools import psql_api, tools
 
 hd = flask.Blueprint('hd', 'hd', url_prefix='/hd', template_folder='templates/help_desk')
 
@@ -18,18 +18,26 @@ def hd_home():
 def setup_hd_categories():
     db = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
-        # print(flask.request.form)
-        form_data = flask.request.form
-        # print(form_data['hd_category_level'])
+        fd = flask.request.form
         db.exec_query(q_hd.ins_ticket_category,
-                      {'parent_id': 0 if int(form_data['hd_category_level']) == 1 else form_data['hd_category_parent_id'],
-                       'level': form_data['hd_category_level'],
-                       'category_name': form_data['hd_category_name'],
-                       'sla_days': form_data['hd_category_sla_days'] if int(form_data['hd_category_level']) == 3 else 0})
+                      {'parent_id': 0 if int(fd['hd_category_level']) == 1 else fd['hd_category_parent_id'],
+                       'level': fd['hd_category_level'],
+                       'category_name': fd['hd_category_name'],
+                       'sla_days': fd['hd_category_sla_days'] if int(fd['hd_category_level']) == 3 else 0}, one=True)
+        if int(fd['hd_category_level']) == 3:
+            cat3_id = db.lod()['id']
+            for ut in fd.getlist('teams-select-list'):
+                db.exec_query(q_hd.ins_cat3_teams, {'cat3_id': cat3_id,
+                                                    'team_id': ut})
+        flask.flash('הסיווג נוסף בהצלחה', 'success')
         return flask.redirect(flask.url_for('hd.setup_hd_categories'))
     db.exec_query(q_hd.get_all_ticket_category)
+    category_data = db.lod()
+    db.exec_query(q_main.get_all_teams)
+    l_teams = db.lod()
     return flask.render_template('setup_category.html',
-                                 category_data=db.lod())
+                                 category_data=category_data,
+                                 l_teams=l_teams)
 
 
 @hd.route('/open-hd-ticket', methods=["GET", "POST"])

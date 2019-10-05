@@ -22,7 +22,18 @@
                     <option>#</option>
                 </select>
             </div>
-            <div class="form-group col-md" id="fg_hd_category_sla_days">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4" id="fg-teams-select-list">
+                <label for="teams-select-list">צוותים</label>
+                <select multiple class="form-control" id="teams-select-list" name="teams-select-list" required>
+                    {% for team in l_teams %}
+                        <option value="{{ team['team_id'] }}">{{ team['team_name'] }}</option>
+                    {% endfor %}
+                </select>
+                <small id="teams-select-list" class="form-text text-muted">חובה לבחור אחד או יותר</small>
+            </div>
+            <div class="form-group col-md-4" id="fg_hd_category_sla_days">
                 <label for="hd_category_sla_days">ימים לטיפול</label>
                 <input type="number" min="1" class="form-control" name="hd_category_sla_days" id="hd_category_sla_days" aria-describedby="hd_category_sla_days_help" required>
                 <small id="hd_category_sla_days_help" class="form-text text-muted">גדול מ 0</small>

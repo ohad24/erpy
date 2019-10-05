@@ -9,13 +9,23 @@ $(document).ready(function() {
             $('#fg_hd_category_sla_days').hide();
             $('#hd_category_sla_days').prop('required',false);
 
+            $('#fg-teams-select-list').hide();
+            $('#teams-select-list').prop('required',false);
+
         } else {
             if (hd_category_level == 3) {
                 $('#fg_hd_category_sla_days').show();
                 $('#hd_category_sla_days').prop('required',true);
+
+                $('#fg-teams-select-list').show();
+                $('#teams-select-list').prop('required',true);
+
             } else if (hd_category_level == 2) {
                 $('#fg_hd_category_sla_days').hide();
                 $('#hd_category_sla_days').prop('required',false);
+
+                $('#fg-teams-select-list').hide();
+                $('#teams-select-list').prop('required',false);
             }
             $('#fg_hd_category_parent_id').show();
             $('#hd_category_parent_id').prop('required',true);

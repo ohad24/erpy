@@ -2,52 +2,42 @@
 {% block content %}
     <h2>פתיחת פניה</h2>
     <form id="add-category-form" method="POST" enctype="multipart/form-data" class="needs-validation" action="{{ url_for('hd.open_hd_ticket', next=request.args.get('next')) }}" novalidate>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="hd_cat_1">סיווג 1</label>
-                    <select class="form-control" name="hd_cat_1" id="hd_cat_1" required>
-                        <option selected value disabled> -- ללא -- </option>
-                        {% for opt in cat_1_l %}
-                            <option value="{{ opt['id'] }}">{{ opt['category_name'] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="hd_cat_1">סיווג 1</label>
+                <select class="form-control" name="hd_cat_1" id="hd_cat_1" required>
+                    <option selected value disabled> -- ללא -- </option>
+                    {% for opt in cat_1_l %}
+                        <option value="{{ opt['id'] }}">{{ opt['category_name'] }}</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="hd_cat_2">סיווג 2</label>
-                    <select class="form-control" name="hd_cat_2" id="hd_cat_2" required>
-                        <option selected value disabled> -- ללא -- </option>
-                    </select>
-                </div>
+            <div class="form-group col-md-4">
+                <label for="hd_cat_2">סיווג 2</label>
+                <select class="form-control" name="hd_cat_2" id="hd_cat_2" required>
+                    <option selected value disabled> -- ללא -- </option>
+                </select>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="hd_cat_3">סיווג 3</label>
-                    <select class="form-control" name="hd_cat_3" id="hd_cat_3" required>
-                        <option selected value disabled> -- ללא -- </option>
-                    </select>
-                </div>
+            <div class="form-group col-md-4">
+                <label for="hd_cat_3">סיווג 3</label>
+                <select class="form-control" name="hd_cat_3" id="hd_cat_3" required>
+                    <option selected value disabled> -- ללא -- </option>
+                </select>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="hd_ticket_note">תיאור הפניה</label>
-                    <textarea class="form-control" id="hd_ticket_note" name="hd_ticket_note" rows="3" required></textarea>
-                </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="hd_ticket_note">תיאור הפניה</label>
+                <textarea class="form-control" id="hd_ticket_note" name="hd_ticket_note" rows="3" required></textarea>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="hd_ticket_multi_file">בחירת קבצים מרובה</label>
-                    <input type="file" class="form-control-file" id="hd_ticket_multi_file" name="hd_ticket_multi_file" multiple>
-                    <small class="form-text text-muted">עד 3 קבצים, כל קובץ עד 5 מגה</small>
-                </div>
+            <div class="form-group col-md-6">
+                <label for="hd_ticket_multi_file">בחירת קבצים מרובה</label>
+                <input type="file" class="form-control-file" id="hd_ticket_multi_file" name="hd_ticket_multi_file" multiple>
+                <small class="form-text text-muted">עד 3 קבצים, כל קובץ עד 5 מגה</small>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
+        <div class="form-row">
+            <div class="form-group col-md">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <button type="submit" class="btn btn-primary">הוסף</button>
             </div>

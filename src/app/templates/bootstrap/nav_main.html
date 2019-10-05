@@ -16,11 +16,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-info" href="#"><i class="fas fa-code-branch"></i> {{ active_branch }}</a>
                         </li>
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ניהול </a>
-                        <div class="dropdown-menu text-right" aria-labelledby="navbarDropdown" style="left: auto;">
-                            <a class="dropdown-item" href="{#url_for('versions')#}">גרסאות</a>
-                            <a class="dropdown-item" href="#">Git</a>
-                        </div>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ניהול </a>
+                            <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{url_for('index.users')}}">משתמשים</a>
+                                <a class="dropdown-item" href="#">קבוצות</a>
+                                <a class="dropdown-item" href="{#url_for('versions')#}">גרסאות</a>
+                                <a class="dropdown-item" href="#">Git</a>
+                            </div>
+                        </li>
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link text-warning" href="{# url_for('p_info', user_name = current_user.username) #}#">

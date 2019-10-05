@@ -1,9 +1,14 @@
-INSERT INTO ref_user_class
-             (user_class_name, permission_level)
-             VALUES ('root', 99);
+INSERT INTO ref_user_class (user_class_name, permission_level) VALUES ('root', 99); --1
+INSERT INTO ref_user_class (user_class_name, permission_level) VALUES ('מנהל', 50); --2
+INSERT INTO ref_user_class (user_class_name, permission_level) VALUES ('תפעול', 40); --3
+INSERT INTO ref_user_class (user_class_name, permission_level) VALUES ('משתמש', 10); --4
 
 INSERT INTO users (user_name, user_class_id, first_name, last_name, passkey, email, phone)
-                   VALUES ('erpy', 1, 'erpy', 'erpy', '1234', '1@1.com', '1111');
+                   VALUES ('erpy', 1, 'erpy', 'erpy', '9f867136eaa208d9436b639e3517d2c3effa91d079694e12f1be30ad9b788003', '1@1.com', '1111');
+
+INSERT INTO teams (team_name, description) VALUES ('IT', NULL); --1
+INSERT INTO teams (team_name, description) VALUES ('מכירות', NULL); --2
+
 
 INSERT INTO ref_hd_ticket_status (ticket_status_text) VALUES ('פתוח'); --1
 INSERT INTO ref_hd_ticket_status (ticket_status_text) VALUES ('בהמתנה'); --2

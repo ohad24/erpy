@@ -1,7 +1,7 @@
 {% extends "bootstrap/base.html" %}
 {% block content %}
     <h2>פתיחת פניה</h2>
-    <form id="add-category-form" method="POST" enctype="multipart/form-data" class="needs-validation" action="{{ url_for('hd.open_hd_ticket', next=request.args.get('next')) }}" novalidate>
+    <form id="add-category-form" method="POST" enctype="multipart/form-data" class="needs-validation" action="{{ url_for('hd.open_hd_ticket') }}" novalidate>
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="hd_cat_1">סיווג 1</label>

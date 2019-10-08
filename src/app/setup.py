@@ -20,6 +20,8 @@ for dir in l_directory:
 app = flask.Flask('erpy')
 app.secret_key = os.environ['ERPY_APP_KEY']
 
+app.config['UPLOAD_FOLDER'] = 'users_files'
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 

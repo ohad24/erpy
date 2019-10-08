@@ -106,3 +106,9 @@ get_ticket_notes = """SELECT tn.*,
                       AND tn.create_by = u.user_id
                       AND ticket_id = %(ticket_id)s
                       ORDER BY tn.create_date DESC"""
+
+get_ticket_files = """SELECT * FROM hd_ticket_files
+                      WHERE ticket_id = %(ticket_id)s"""
+
+get_orig_filename = """SELECT file_name, mimetype FROM hd_ticket_files
+                       WHERE gen_file_name=%(gen_file_name)s"""

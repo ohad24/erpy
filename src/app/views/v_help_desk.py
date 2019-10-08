@@ -2,6 +2,7 @@ from setup import csrf, get_db, User, app, flask
 from flask_login import current_user, login_required, logout_user, login_user
 from queries import q_hd, q_main
 from tools import psql_api, tools
+import os
 
 hd = flask.Blueprint('hd', 'hd', url_prefix='/hd', template_folder='templates/help_desk')
 
@@ -57,7 +58,7 @@ def open_hd_ticket():
                        'user_id': current_user.id})
         for i, file in enumerate(flask.request.files.getlist('hd_ticket_multi_file')):
             if file and tools.allowed_file(file.filename):
-                gen_file_name, file_length, mimetype = tools.save_file('users_files/hd', file)
+                gen_file_name, file_length, mimetype = tools.save_file('hd', file)
                 db.exec_query(q_hd.ins_ticket_file,
                               {'ticket_id': ticket_id, 'file_name': file.filename,
                                'gen_file_name': gen_file_name, 'mimetype': mimetype,
@@ -102,6 +103,28 @@ def get_ticket_user_notes():
     db.exec_query(q_hd.get_ticket_notes,
                   {'ticket_id': flask.request.args['ticket_id']})
     return flask.jsonify(db.lod())
+
+
+@hd.route('/_get_ticket_user_files', methods=['GET'])
+def get_ticket_user_files():
+    db = psql_api.PostgresAPI(get_db())
+    db.exec_query(q_hd.get_ticket_files,
+                  {'ticket_id': flask.request.args['ticket_id']})
+    return flask.jsonify(db.lod())
+
+
+@hd.route('/users_files/<gen_file_name>')
+def download_hd_ticket_file(gen_file_name):
+    db = psql_api.PostgresAPI(get_db())
+    db.exec_query(q_hd.get_orig_filename,
+                  {'gen_file_name': gen_file_name}, one=True)
+    full_path = os.path.join(app.config['UPLOAD_FOLDER'], 'hd')
+    file_data = db.lod()
+    return flask.send_from_directory(full_path,
+                                     gen_file_name,
+                                     attachment_filename=file_data['file_name'],
+                                     as_attachment=True,
+                                     mimetype=file_data['mimetype'])
 
 
 @hd.route('/_update_select_category', methods=['GET'])

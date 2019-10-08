@@ -52,9 +52,24 @@ $(document).ready(function() {
     }
 
 
-    get_ticket_header();
+    function get_user_files() {
+        $.getJSON($SCRIPT_ROOT + '/hd/_get_ticket_user_files', {
+            'ticket_id': ticket_id
+        }, function (tuf) {
+            $.each(tuf, function(i, tuf) {
+                a = $("<a/>")
+                    .attr("href", $SCRIPT_ROOT + '/hd/users_files/' + tuf.gen_file_name)
+                    .html($("<dbi/>").text(tuf.file_name));
+                div = $("<div/>").addClass('text-truncate');
+                $('#files-div').append(div.append(a))
+            })
+        });
+    }
 
+
+    get_ticket_header();
     li_ticket_note = $('.ticket_note').clone();
     get_user_notes();
+    get_user_files();
 
 });

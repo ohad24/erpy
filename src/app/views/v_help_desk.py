@@ -69,6 +69,41 @@ def open_hd_ticket():
                                  cat_1_l=cat_1_l)
 
 
+@hd.route('/ticket', methods=["GET", "POST"])
+def ticket():
+    ticket_id = flask.request.args.get('id', default=None, type = int)
+    return flask.render_template('ticket.html',
+                                 ticket_id=ticket_id)
+
+
+@hd.route('/_get_ticket_header', methods=['GET'])
+def get_ticket_header():
+    db = psql_api.PostgresAPI(get_db())
+    db.exec_query(q_hd.get_ticket_header,
+                  {'ticket_id': flask.request.args['ticket_id']},
+                  one=True)
+    return flask.jsonify(db.lod())
+
+
+@hd.route('/_add_ticket_user_note', methods=['POST'])
+def add_ticket_user_note():
+    db = psql_api.PostgresAPI(get_db())
+    fd = flask.request.form
+    db.exec_query(q_hd.ins_user_ticket_note, {'ticket_id': fd['ticket_id'],
+                                              'ticket_note_type_id': 2,
+                                              'note_text': fd['note_text'],
+                                              'create_by': current_user.id})
+    return flask.jsonify(None)
+
+
+@hd.route('/_get_ticket_user_notes', methods=['GET'])
+def get_ticket_user_notes():
+    db = psql_api.PostgresAPI(get_db())
+    db.exec_query(q_hd.get_ticket_notes,
+                  {'ticket_id': flask.request.args['ticket_id']})
+    return flask.jsonify(db.lod())
+
+
 @hd.route('/_update_select_category', methods=['GET'])
 def update_select_category():
     db = psql_api.PostgresAPI(get_db())

@@ -99,10 +99,10 @@ CREATE TABLE ref_hd_ticket_status (
 );
 
 
-DROP TABLE IF EXISTS ref_hd_ticket_note;
-CREATE TABLE ref_hd_ticket_note (
-    ticket_note_id SERIAL PRIMARY KEY NOT NULL,
-    ticket_note_text VARCHAR(30)
+DROP TABLE IF EXISTS ref_hd_ticket_note_type;
+CREATE TABLE ref_hd_ticket_note_type (
+    ticket_note_type_id SERIAL PRIMARY KEY NOT NULL,
+    ticket_note_type_name VARCHAR(30)
 );
 
 
@@ -127,7 +127,7 @@ DROP TABLE IF EXISTS hd_ticket_notes;
 CREATE TABLE hd_ticket_notes (
     id SERIAL PRIMARY KEY NOT NULL,
     ticket_id INT REFERENCES hd_tickets (id) NOT NULL,
-    ticket_note_id INT REFERENCES ref_hd_ticket_note (ticket_note_id) NOT NULL,
+    ticket_note_type_id INT REFERENCES ref_hd_ticket_note_type (ticket_note_type_id) NOT NULL,
     note_text TEXT NOT NULL,
     create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     create_by INT REFERENCES users (user_id) NOT NULL

@@ -28,7 +28,7 @@ ins_ticket = """INSERT INTO hd_tickets (ticket_status_id, category3id, open_date
                             f_calc_orig_hd_ticket_sla_date(%(category3id)s), %(user_id)s)
                 RETURNING id AS ticket_id"""
                     
-ins_ticket_note = """INSERT INTO hd_ticket_notes (ticket_id, ticket_note_id, note_text, create_by) 
+ins_ticket_note = """INSERT INTO hd_ticket_notes (ticket_id, ticket_note_type_id, note_text, create_by) 
                      VALUES (%(ticket_id)s, %(ticket_note_id)s, %(note_text)s, %(user_id)s)"""
 
 ins_ticket_file = """INSERT INTO hd_ticket_files (ticket_id, file_name, gen_file_name, 
@@ -65,3 +65,44 @@ get_user_tickets = """
     AND cat3.parent_id = cat2.id
     AND cat2.parent_id = cat1.id
     AND t.create_by = %(user_id)s"""
+
+get_ticket_header = """
+    SELECT t.id,
+           t.ticket_status_id,
+           s.ticket_status_name,
+           f_heb_date(t.open_date) as open_date,
+           f_heb_date(COALESCE(t.due_manager_date, t.due_orig_date)) as due_date,
+           cat3.category_name AS cat3_name,
+           cat2.category_name AS cat2_name,
+           cat1.category_name AS cat1_name,
+           f_get_full_name(u1.first_name, u1.last_name) as create_by_f_name,
+           f_get_full_name(u2.first_name, u2.last_name) as close_by_f_name
+    FROM ref_hd_ticket_status s,
+         ref_hd_ticket_category cat3,
+         ref_hd_ticket_category cat2,
+         ref_hd_ticket_category cat1,
+         users u1,
+         hd_tickets t
+    LEFT JOIN users u2 ON t.close_by = u2.user_id
+    WHERE 1=1
+    AND t.ticket_status_id = s.ticket_status_id
+    AND t.category3id = cat3.id
+    AND cat3.parent_id = cat2.id
+    AND cat2.parent_id = cat1.id
+    AND t.create_by = u1.user_id
+    AND t.id = %(ticket_id)s"""
+
+ins_user_ticket_note = """INSERT INTO hd_ticket_notes (ticket_id, ticket_note_type_id,
+                                                       note_text, create_by)
+                          VALUES (%(ticket_id)s, %(ticket_note_type_id)s,
+                                  %(note_text)s, %(create_by)s)"""
+
+get_ticket_notes = """SELECT tn.*,
+                             f_get_full_name(u.first_name, u.last_name) AS full_name,
+                             f_heb_date(tn.create_date) AS heb_date,
+                             to_char(tn.create_date, 'HH24:MI') AS time_
+                      FROM hd_ticket_notes tn, users u
+                      WHERE 1=1
+                      AND tn.create_by = u.user_id
+                      AND ticket_id = %(ticket_id)s
+                      ORDER BY tn.create_date DESC"""

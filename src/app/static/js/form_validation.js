@@ -13,8 +13,8 @@ $(document).ready(function(){
               event.preventDefault();
               event.stopPropagation();
             } else {
-                $('.upload-submit-btn').prop('disabled', true).text('טוען.. אנא המתן..')
-                                .append('&nbsp;<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
+                // $('.upload-submit-btn').prop('disabled', true).text('טוען.. אנא המתן..')
+                //                 .append('&nbsp;<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
             }
             form.classList.add('was-validated');
           }, false);

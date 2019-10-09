@@ -26,7 +26,9 @@
         <tbody>
             {% for ticket in l_user_tickets %}
                 <tr>
-                    <th scope="row">{{ ticket['id'] }}</th>
+                    <th scope="row">
+                        <a href="{{ url_for('hd.ticket', id=ticket['id']) }}">{{ ticket['id'] }}</a>
+                    </th>
                     <td>{{ ticket['ticket_status_name'] }}</td>
                     <td>{{ ticket['cat1_name'] }}</td>
                     <td>{{ ticket['cat2_name'] }}</td>

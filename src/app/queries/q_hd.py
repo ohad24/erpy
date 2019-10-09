@@ -73,8 +73,11 @@ get_ticket_header = """
            f_heb_date(t.open_date) as open_date,
            f_heb_date(COALESCE(t.due_manager_date, t.due_orig_date)) as due_date,
            cat3.category_name AS cat3_name,
+           cat3.id AS cat3_id,
            cat2.category_name AS cat2_name,
+           cat2.id AS cat2_id,
            cat1.category_name AS cat1_name,
+           cat1.id AS cat1_id,
            f_get_full_name(u1.first_name, u1.last_name) as create_by_f_name,
            f_get_full_name(u2.first_name, u2.last_name) as close_by_f_name
     FROM ref_hd_ticket_status s,
@@ -112,3 +115,8 @@ get_ticket_files = """SELECT * FROM hd_ticket_files
 
 get_orig_filename = """SELECT file_name, mimetype FROM hd_ticket_files
                        WHERE gen_file_name=%(gen_file_name)s"""
+
+update_ticket_header = """UPDATE hd_tickets SET category3id = %(category3id)s
+                          WHERE id = %(ticket_id)s"""
+
+get_1st_cat = """SELECT id, category_name FROM ref_hd_ticket_category WHERE level = 1"""

@@ -64,7 +64,7 @@ def open_hd_ticket():
                                'gen_file_name': gen_file_name, 'mimetype': mimetype,
                                'file_size': file_length, 'create_by': current_user.id})
         return flask.redirect(flask.url_for('hd.open_hd_ticket'))
-    db.exec_query('SELECT id, category_name FROM ref_hd_ticket_category WHERE level = 1')
+    db.exec_query(q_hd.get_1st_cat)
     cat_1_l = db.lod()
     return flask.render_template('open_ticket.html',
                                  cat_1_l=cat_1_l)
@@ -73,8 +73,12 @@ def open_hd_ticket():
 @hd.route('/ticket', methods=["GET", "POST"])
 def ticket():
     ticket_id = flask.request.args.get('id', default=None, type = int)
+    db = psql_api.PostgresAPI(get_db())
+    db.exec_query(q_hd.get_1st_cat)
+    cat_1_l = db.lod()
     return flask.render_template('ticket.html',
-                                 ticket_id=ticket_id)
+                                 ticket_id=ticket_id,
+                                 cat_1_l=cat_1_l)
 
 
 @hd.route('/_get_ticket_header', methods=['GET'])
@@ -84,6 +88,15 @@ def get_ticket_header():
                   {'ticket_id': flask.request.args['ticket_id']},
                   one=True)
     return flask.jsonify(db.lod())
+
+
+@hd.route('/_set_ticket_header', methods=['POST'])
+def set_ticket_header():
+    db = psql_api.PostgresAPI(get_db())
+    fd = flask.request.form
+    db.exec_query(q_hd.update_ticket_header, {'category3id': fd['cat_3_id'],
+                                              'ticket_id': fd['ticket_id']})
+    return flask.jsonify(None)
 
 
 @hd.route('/_add_ticket_user_note', methods=['POST'])

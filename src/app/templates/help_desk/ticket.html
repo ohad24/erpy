@@ -1,40 +1,59 @@
 {% extends "bootstrap/base.html" %}
 {% block content %}
-    <h2>פניה מס
-    {{ ticket_id }}</h2>
 
-    <div class="card">
-        <div class="card-body">
-            <div class="form-row">
-                <div class="form-group col-sm">
-                    <b><label for="status-name">סטטוס</label></b>
-                    <input type="text" readonly  class="form-control-plaintext" id="status-name" name="status-name" value="">
+    <div class="row justify-content-between">
+        <div class="col">
+            <h2>פניה מס'
+            {{ ticket_id }}</h2>
+        </div>
+        <div class="col text-left">
+            <button class="btn btn-primary" id="header-edit-btn">עריכה</button>
+            <span id="header-edit-btn-div" style="display: none">
+                <button class="btn btn-success" id="header-save-btn">שמירה</button>
+                <button class="btn btn-danger" id="header-cancel-btn">ביטול</button>
+            </span>
+            <a class="btn btn-warning" href="{{url_for('hd.hd_home')}}" role="button">חזרה</a>
+        </div>
+    </div>
+
+    <form id="header-form" class="needs-validation" novalidate>
+        <div class="card">
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <b><label for="status-name">סטטוס</label></b>
+                        <input type="text" readonly  class="form-control-plaintext" id="status-name" name="status-name" value="">
+                    </div>
+                    <div class="form-group col-sm">
+                        <b><label for="create-by-name">נוצרה ע"י</label></b>
+                        <input type="text" readonly  class="form-control-plaintext" id="create-by-name" name="create-by-name" value="">
+                    </div>
+                    <div class="form-group col-sm">
+                        <b><label for="open-date">נוצרה בתאריך</label></b>
+                        <input type="text" readonly  class="form-control-plaintext" id="open-date" name="open-date" value="">
+                    </div>
                 </div>
-                <div class="form-group col-sm">
-                    <b><label for="create-by-name">נוצרה ע"י</label></b>
-                    <input type="text" readonly  class="form-control-plaintext" id="create-by-name" name="create-by-name" value="">
-                </div>
-                <div class="form-group col-sm">
-                    <b><label for="open-date">נוצרה בתאריך</label></b>
-                    <input type="text" readonly  class="form-control-plaintext" id="open-date" name="open-date" value="">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm">
-                    <b><label for="cat1-name">סיווג ראשי</label></b>
-                    <input type="text" readonly  class="form-control-plaintext" id="cat1-name" name="cat1-name" value="">
-                </div>
-                <div class="form-group col-sm">
-                    <b><label for="cat2-name">סיווג משני</label></b>
-                    <input type="text" readonly  class="form-control-plaintext" id="cat2-name" name="cat2-name" value="">
-                </div>
-                <div class="form-group col-sm">
-                    <b><label for="cat3-name">סיווג שלישי</label></b>
-                    <input type="text" readonly  class="form-control-plaintext" id="cat3-name" name="cat3-name" value="">
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <label for="hd-cat-1">סיווג 1</label>
+                        <select class="form-control" name="hd-cat-1" id="hd-cat-1" required disabled>
+                            {% for opt in cat_1_l %}
+                                <option value="{{ opt['id'] }}">{{ opt['category_name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="hd-cat-2">סיווג 2</label>
+                        <select class="form-control" name="hd-cat-2" id="hd-cat-2" required disabled></select>
+                    </div>
+                    <div class="form-group col-sm">
+                        <label for="hd-cat-3">סיווג 3</label>
+                        <select class="form-control" name="hd-cat-3" id="hd-cat-3" required disabled></select>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <hr>
 
@@ -88,6 +107,7 @@
 {% block scripts %}
 {{super()}}
     <script>ticket_id={{ ticket_id }};</script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/hd/set_child_cat_field.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/hd/ticket.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
 {%- endblock scripts %}

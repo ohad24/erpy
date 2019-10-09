@@ -13,9 +13,52 @@ $(document).ready(function() {
         $('#status-name').val(th.ticket_status_name);
         $('#open-date').val(th.open_date);
         $('#create-by-name').val(th.create_by_f_name);
-        $('#cat1-name').val(th.cat1_name);
-        $('#cat2-name').val(th.cat2_name);
-        $('#cat3-name').val(th.cat3_name);
+        $('#hd-cat-1').val(th.cat1_id);
+        $('#hd-cat-2').empty().append(new Option(th.cat2_name, th.cat2_id));
+        $('#hd-cat-3').empty().append(new Option(th.cat3_name, th.cat3_id));
+    }
+
+
+    function edit_ticket_header(){
+        $('#hd-cat-1').attr("disabled", false);
+        $('#hd-cat-2').attr("disabled", false);
+        $('#hd-cat-3').attr("disabled", false);
+        $('#header-edit-btn').hide();
+        $('#header-edit-btn-div').show();
+    }
+
+    $('#header-edit-btn').on('click', edit_ticket_header);
+
+
+    function save_ticket_header() {
+        hf = $('#header-form')[0];
+        if (hf.checkValidity() === true) {
+            $.post($SCRIPT_ROOT + '/hd/_set_ticket_header', {
+                cat_3_id: $('#hd-cat-3').val(),
+                ticket_id: ticket_id
+            });
+            reset_header()
+        } else {
+            hf.classList.add('was-validated');
+        }
+    }
+
+    $('#header-save-btn').on('click', save_ticket_header);
+
+
+    $('#header-cancel-btn').on('click', function () {
+        reset_header()
+    });
+
+
+    function reset_header() {
+        $('#header-form')[0].classList.remove('was-validated');
+        $('#hd-cat-1').attr("disabled", true);
+        $('#hd-cat-2').attr("disabled", true);
+        $('#hd-cat-3').attr("disabled", true);
+        get_ticket_header();
+        $('#header-edit-btn').show();
+        $('#header-edit-btn-div').hide();
     }
 
 

@@ -49,7 +49,7 @@ get_user_tickets = """
            s.ticket_status_name,
            f_heb_date(t.open_date) as open_date,
            f_heb_date(COALESCE(t.due_manager_date, t.due_orig_date)) as due_date,
-           fc.f_count,
+           COALESCE(fc.f_count, 0) as f_count,
            cat3.category_name AS cat3_name,
            cat2.category_name AS cat2_name,
            cat1.category_name AS cat1_name

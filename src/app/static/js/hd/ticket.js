@@ -64,14 +64,16 @@ $(document).ready(function() {
 
     function add_user_note(){
         let note_text = $('#hd_ticket_note').val();
-        $.post($SCRIPT_ROOT + '/hd/_add_ticket_user_note', {
+        if (note_text.length > 0) {
+            $.post($SCRIPT_ROOT + '/hd/_add_ticket_user_note', {
             ticket_id: ticket_id,
             note_text: note_text
-        });
-        $('#hd_ticket_note').val('');
-        notify_params.className = 'success';
-        $.notify('התיעוד נוסף בהצחה', notify_params);
-        get_user_notes();
+            });
+            $('#hd_ticket_note').val('');
+            notify_params.className = 'success';
+            $.notify('התיעוד נוסף בהצחה', notify_params);
+            get_user_notes();
+        }
     }
 
 

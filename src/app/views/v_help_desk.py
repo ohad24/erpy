@@ -49,7 +49,7 @@ def open_hd_ticket():
     if flask.request.method == 'POST':
         form_data = flask.request.form
         db.exec_query(q_hd.ins_ticket,
-                      {'category3id': form_data['hd_cat_3'],
+                      {'category3id': form_data['hd-cat-3'],
                        'user_id': current_user.id}, one=True)
         ticket_id = db.lod()['ticket_id']
         db.exec_query(q_hd.ins_ticket_note,

@@ -64,15 +64,32 @@ $(document).ready(function() {
 
     function add_user_note(){
         let note_text = $('#hd_ticket_note').val();
+        let close_reason_checked = $('#close-reason-cb').prop('checked');
         if (note_text.length > 0) {
-            $.post($SCRIPT_ROOT + '/hd/_add_ticket_user_note', {
-            ticket_id: ticket_id,
-            note_text: note_text
-            });
-            $('#hd_ticket_note').val('');
-            notify_params.className = 'success';
-            $.notify('התיעוד נוסף בהצחה', notify_params);
-            get_user_notes();
+            if (close_reason_checked) {
+                let close_reason_id = $("#close-reason option:selected").val();
+                if (close_reason_id != ""){
+                    $.post($SCRIPT_ROOT + '/hd/_close_ticket', {
+                        ticket_id: ticket_id,
+                        note_text: note_text,
+                        close_reason_id: close_reason_id
+                    });
+                    $('#hd_ticket_note').val('');
+                    notify_params.className = 'success';
+                    $.notify('הפניה נסגרה בהצלחה', notify_params);
+                    get_ticket_header();
+                    get_user_notes();
+                }
+            } else {
+                $.post($SCRIPT_ROOT + '/hd/_add_ticket_user_note', {
+                    ticket_id: ticket_id,
+                    note_text: note_text
+                });
+                $('#hd_ticket_note').val('');
+                notify_params.className = 'success';
+                $.notify('התיעוד נוסף בהצחה', notify_params);
+                get_user_notes();
+            }
         }
     }
 
@@ -110,6 +127,17 @@ $(document).ready(function() {
             })
         });
     }
+
+
+    $('#close-reason-cb').on('click', function () {
+        let checked = $(this).prop('checked');
+        if (checked) {
+            $("#close-reason").val($("#close-reason option:first").val());
+            $('#close-reason-div').show();
+        } else {
+            $('#close-reason-div').hide()
+        }
+    });
 
 
     get_ticket_header();

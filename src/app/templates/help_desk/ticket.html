@@ -68,8 +68,26 @@
                             <textarea class="form-control" id="hd_ticket_note" required></textarea>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-md text-left">
+                    <div class="form-row justify-content-end">
+                        <div class="form-group col-auto mr-auto" id="close-reason-div" style="display: none">
+                            <div class="form-inline">
+                                <label for="close-reason">סיבת סגירה</label>
+                                &nbsp
+                                <select class="custom-select" name="close-reason" id="close-reason" required>
+                                    <option selected value disabled> -- ללא -- </option>
+                                    {% for cr in close_reason_l %}
+                                        <option value="{{ cr['ticket_close_reason_id'] }}">{{ cr['ticket_close_reason_name'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-auto">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="close-reason-cb" value="option1">
+                                &nbsp
+                                <label class="form-check-label" for="close-reason-cb">סגור</label>
+                            </div>
                             <button class="btn btn-primary" id="add-user-note">הוסף</button>
                         </div>
                     </div>

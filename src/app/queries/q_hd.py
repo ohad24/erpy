@@ -120,3 +120,11 @@ update_ticket_header = """UPDATE hd_tickets SET category3id = %(category3id)s
                           WHERE id = %(ticket_id)s"""
 
 get_1st_cat = """SELECT id, category_name FROM ref_hd_ticket_category WHERE level = 1"""
+
+get_ticket_close_reason = """SELECT * FROM ref_hd_ticket_close_reason"""
+
+close_ticket_status = """UPDATE hd_tickets SET close_date=NOW(),
+                                               ticket_status_id=3,
+                                               close_by = %(close_by)s,
+                                               close_reason_id = %(close_reason_id)s
+                         WHERE id=%(ticket_id)s"""

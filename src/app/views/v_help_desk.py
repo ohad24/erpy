@@ -76,9 +76,12 @@ def ticket():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_1st_cat)
     cat_1_l = db.lod()
+    db.exec_query(q_hd.get_ticket_close_reason)
+    close_reason_l = db.lod()
     return flask.render_template('ticket.html',
                                  ticket_id=ticket_id,
-                                 cat_1_l=cat_1_l)
+                                 cat_1_l=cat_1_l,
+                                 close_reason_l=close_reason_l)
 
 
 @hd.route('/_get_ticket_header', methods=['GET'])
@@ -107,6 +110,20 @@ def add_ticket_user_note():
                                               'ticket_note_type_id': 2,
                                               'note_text': fd['note_text'],
                                               'create_by': current_user.id})
+    return flask.jsonify(None)
+
+
+@hd.route('/_close_ticket', methods=['POST'])
+def close_ticket():
+    db = psql_api.PostgresAPI(get_db())
+    fd = flask.request.form
+    db.exec_query(q_hd.ins_user_ticket_note, {'ticket_id': fd['ticket_id'],
+                                              'ticket_note_type_id': 3,
+                                              'note_text': fd['note_text'],
+                                              'create_by': current_user.id})
+    db.exec_query(q_hd.close_ticket_status, {'close_by': current_user.id,
+                                             'close_reason_id': fd['close_reason_id'],
+                                             'ticket_id': fd['ticket_id']})
     return flask.jsonify(None)
 
 

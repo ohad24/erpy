@@ -16,6 +16,14 @@ $(document).ready(function() {
         $('#hd-cat-1').val(th.cat1_id);
         $('#hd-cat-2').empty().append(new Option(th.cat2_name, th.cat2_id));
         $('#hd-cat-3').empty().append(new Option(th.cat3_name, th.cat3_id));
+        $('#due-date').val(th.due_date);
+        if (th.ticket_status_id == 3){
+            $('#close-by-name').val(th.close_by_f_name);
+            $('#close-by-date').val(th.close_date);
+            $('#close-reason-name').val(th.ticket_close_reason_name);
+            $('#header-form-close-data').show();
+            $('.close-element').hide();
+        }
     }
 
 
@@ -104,9 +112,10 @@ $(document).ready(function() {
             $('.ticket_note').remove();
             $.each(tun, function(i, note) {
                 tn = li_ticket_note.clone();
-                tn.find('.main-text').html(note.note_text.replace(/\n/g, "<br />"));
-                tn.find('.div-user-f-name').text(note.full_name);
-                tn.find('.div-heb-date').text(note.time_ + ', ' +
+                tn.find('#main-text').html(note.note_text.replace(/\n/g, "<br />"));
+                tn.find('#ticket-type-name').text(note.ticket_note_type_name);
+                tn.find('#div-user-f-name').text(note.full_name);
+                tn.find('#div-heb-date').text(note.time_ + ', ' +
                                                         note.heb_date);
                 $('.ul_notes').append(tn.show())
             })

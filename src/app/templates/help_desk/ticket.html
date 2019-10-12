@@ -19,18 +19,36 @@
     <form id="header-form" class="needs-validation" novalidate>
         <div class="card">
             <div class="card-body">
+                <div class="form-row" id="header-form-close-data" style="display: none">
+                    <div class="form-group col-sm">
+                        <b><label for="close-by-name">נסגרה ע"י</label></b>
+                        <input type="text" readonly class="form-control-plaintext" id="close-by-name" name="close-by-name" value="">
+                    </div>
+                    <div class="form-group col-sm">
+                        <b><label for="close-by-date">נסגרה בתאריך</label></b>
+                        <input type="text" readonly class="form-control-plaintext" id="close-by-date" name="close-by-date" value="">
+                    </div>
+                    <div class="form-group col-sm">
+                        <b><label for="close-reason-name">סיבת סגירה</label></b>
+                        <input type="text" readonly class="form-control-plaintext" id="close-reason-name" name="close-reason-name" value="">
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="form-group col-sm">
                         <b><label for="status-name">סטטוס</label></b>
-                        <input type="text" readonly  class="form-control-plaintext" id="status-name" name="status-name" value="">
+                        <input type="text" readonly class="form-control-plaintext" id="status-name" name="status-name" value="">
                     </div>
                     <div class="form-group col-sm">
                         <b><label for="create-by-name">נוצרה ע"י</label></b>
-                        <input type="text" readonly  class="form-control-plaintext" id="create-by-name" name="create-by-name" value="">
+                        <input type="text" readonly class="form-control-plaintext" id="create-by-name" name="create-by-name" value="">
                     </div>
                     <div class="form-group col-sm">
                         <b><label for="open-date">נוצרה בתאריך</label></b>
-                        <input type="text" readonly  class="form-control-plaintext" id="open-date" name="open-date" value="">
+                        <input type="text" readonly class="form-control-plaintext" id="open-date" name="open-date" value="">
+                    </div>
+                    <div class="form-group col-sm">
+                        <b><label for="due-date">צפי לטיפול</label></b>
+                        <input type="text" readonly class="form-control-plaintext" id="due-date" name="due-date" value="">
                     </div>
                 </div>
                 <div class="form-row">
@@ -69,7 +87,7 @@
                         </div>
                     </div>
                     <div class="form-row justify-content-end">
-                        <div class="form-group col-auto mr-auto" id="close-reason-div" style="display: none">
+                        <div class="form-group col-auto mr-auto close-element" id="close-reason-div" style="display: none">
                             <div class="form-inline">
                                 <label for="close-reason">סיבת סגירה</label>
                                 &nbsp
@@ -83,7 +101,7 @@
                         </div>
 
                         <div class="form-group col-auto">
-                            <div class="form-check form-check-inline">
+                            <div class="form-check form-check-inline close-element">
                                 <input class="form-check-input" type="checkbox" id="close-reason-cb" value="option1">
                                 &nbsp
                                 <label class="form-check-label" for="close-reason-cb">סגור</label>
@@ -93,14 +111,18 @@
                     </div>
 
                     <ul class="list-group ul_notes" style="padding-inline-start: 0">
-                        <li class="list-group-item ticket_note" style="display: none">
-                            <div class="main-text"></div>
-                            <div class="text-left text-muted">
-                                <bdi><small class="div-user-f-name"></small></bdi>
-                                <small> @ </small>
-                                <small class="div-heb-date"></small>
+                        <li class="list-group-item ticket_note mb-2" style="display: none">
+                            <div id="main-text"></div>
+                            <div class="row justify-content-between">
+                                <div class="col-auto">
+                                    <small class="text-muted" id="ticket-type-name"></small>
+                                </div>
+                                <div class="col-auto text-left text-muted">
+                                    <bdi><small id="div-user-f-name"></small></bdi>
+                                    <small> @ </small>
+                                    <small id="div-heb-date"></small>
+                                </div>
                             </div>
-
                         </li>
                     </ul>
 

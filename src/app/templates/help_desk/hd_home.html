@@ -20,6 +20,8 @@
                 <th scope="col">סיווג שלישי</th>
                 <th scope="col">תאריך פתיחה</th>
                 <th scope="col">צפי לסיום</th>
+                <th scope="col">תאריך סגירה</th>
+                <th scope="col">נסגר ע"י</th>
                 <th scope="col">כמות קבצים</th>
             </tr>
         </thead>
@@ -35,6 +37,8 @@
                     <td>{{ ticket['cat3_name'] }}</td>
                     <td>{{ ticket['open_date'] }}</td>
                     <td>{{ ticket['due_date'] }}</td>
+                    <td>{{ ticket['close_date'] }}</td>
+                    <td>{{ ticket['ticket_close_reason_name'] }}</td>
                     <td>{{ ticket['f_count'] }}</td>
                 </tr>
             {% endfor %}

@@ -71,6 +71,16 @@ def open_hd_ticket():
                                  cat_1_l=cat_1_l)
 
 
+@hd.route('/my-team-ticket', methods=["GET", "POST"])
+def my_team_ticket():
+    db = psql_api.PostgresAPI(get_db())
+    db.exec_query(q_hd.get_my_teams_tickets_header,
+                  {'user_id': current_user.id})
+    l_my_teams_tickets = db.lod()
+    return flask.render_template('my_team_ticket.html',
+                                 l_my_teams_tickets=l_my_teams_tickets)
+
+
 @hd.route('/ticket', methods=["GET", "POST"])
 def ticket():
     ticket_id = flask.request.args.get('id', default=None, type = int)

@@ -39,69 +39,21 @@ ins_ticket_file = """INSERT INTO hd_ticket_files (ticket_id, file_name, gen_file
 ins_cat3_teams = """INSERT INTO ref_hd_ticket_cat3_teams (cat3_id, team_id)
                     VALUES (%(cat3_id)s, %(team_id)s)"""
 
-get_user_tickets = """
-    WITH file_count as (
-        SELECT ticket_id, count(*) as f_count FROM hd_ticket_files f
-        GROUP BY ticket_id
-    )
-    SELECT t.id,
-           t.ticket_status_id,
-           s.ticket_status_name,
-           f_heb_date(t.open_date) as open_date,
-           f_heb_date(COALESCE(t.due_manager_date, t.due_orig_date)) as due_date,
-           COALESCE(fc.f_count, 0) as f_count,
-           cat3.category_name AS cat3_name,
-           cat2.category_name AS cat2_name,
-           cat1.category_name AS cat1_name,
-           COALESCE(f_heb_date(t.close_date), '-') AS close_date,
-           t.close_reason_id AS close_reason_id,
-           COALESCE(cr.ticket_close_reason_name, '-') AS ticket_close_reason_name
-    FROM ref_hd_ticket_status s,
-         ref_hd_ticket_category cat3,
-         ref_hd_ticket_category cat2,
-         ref_hd_ticket_category cat1,
-         hd_tickets t
-    LEFT JOIN file_count fc ON t.id = fc.ticket_id
-    LEFT JOIN ref_hd_ticket_close_reason cr ON t.close_reason_id = cr.ticket_close_reason_id
-    WHERE 1=1
-    AND t.ticket_status_id = s.ticket_status_id
-    AND t.category3id = cat3.id
-    AND cat3.parent_id = cat2.id
-    AND cat2.parent_id = cat1.id
-    AND t.create_by = %(user_id)s"""
+get_user_tickets = """SELECT * FROM v_get_tickets_header
+                      WHERE create_by = %(user_id)s"""
 
-get_ticket_header = """
-    SELECT t.id,
-           t.ticket_status_id,
-           s.ticket_status_name,
-           f_heb_date(t.open_date) as open_date,
-           f_heb_date(COALESCE(t.due_manager_date, t.due_orig_date)) as due_date,
-           cat3.category_name AS cat3_name,
-           cat3.id AS cat3_id,
-           cat2.category_name AS cat2_name,
-           cat2.id AS cat2_id,
-           cat1.category_name AS cat1_name,
-           cat1.id AS cat1_id,
-           f_get_full_name(u1.first_name, u1.last_name) as create_by_f_name,
-           f_get_full_name(u2.first_name, u2.last_name) as close_by_f_name,
-           f_heb_date(t.close_date) AS close_date,
-           t.close_reason_id,
-           cr.ticket_close_reason_name
-    FROM ref_hd_ticket_status s,
-         ref_hd_ticket_category cat3,
-         ref_hd_ticket_category cat2,
-         ref_hd_ticket_category cat1,
-         users u1,
-         hd_tickets t
-    LEFT JOIN users u2 ON t.close_by = u2.user_id
-    LEFT JOIN ref_hd_ticket_close_reason cr ON t.close_reason_id = cr.ticket_close_reason_id
-    WHERE 1=1
-    AND t.ticket_status_id = s.ticket_status_id
-    AND t.category3id = cat3.id
-    AND cat3.parent_id = cat2.id
-    AND cat2.parent_id = cat1.id
-    AND t.create_by = u1.user_id
-    AND t.id = %(ticket_id)s"""
+get_ticket_header = """SELECT * FROM v_get_tickets_header
+                       WHERE id = %(ticket_id)s"""
+
+get_my_teams_tickets_header = """SELECT * FROM v_get_tickets_header t
+                                 WHERE EXISTS(
+                                     SELECT 1
+                                     FROM ref_hd_ticket_cat3_teams ct
+                                     WHERE EXISTS (SELECT 1
+                                                   FROM teams_assignment ta
+                                                   WHERE ct.team_id = ta.team_id
+                                                   AND user_id = %(user_id)s)
+                                     AND t.category3id = ct.cat3_id)"""
 
 ins_user_ticket_note = """INSERT INTO hd_ticket_notes (ticket_id, ticket_note_type_id,
                                                        note_text, create_by)

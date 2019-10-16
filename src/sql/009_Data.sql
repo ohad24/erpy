@@ -4,11 +4,18 @@ INSERT INTO ref_user_class (user_class_name, permission_level) VALUES ('תפעו
 INSERT INTO ref_user_class (user_class_name, permission_level) VALUES ('משתמש', 10); --4
 
 INSERT INTO users (user_name, user_class_id, first_name, last_name, passkey, email, phone)
-                   VALUES ('erpy', 1, 'erpy', 'erpy', '9f867136eaa208d9436b639e3517d2c3effa91d079694e12f1be30ad9b788003', '1@1.com', '1111');
+VALUES ('erpy', 1, 'erpy', 'erpy', '9f867136eaa208d9436b639e3517d2c3effa91d079694e12f1be30ad9b788003', '1@1.com', '1111'); --1
+
+INSERT INTO users (user_name, user_class_id, first_name, last_name, passkey, email, phone)
+VALUES ('ohad24', 2, 'אוהד', 'מזרחי', '9f867136eaa208d9436b639e3517d2c3effa91d079694e12f1be30ad9b788003', '1@1.com', '1111'); --2
+
+INSERT INTO users (user_name, user_class_id, first_name, last_name, passkey, email, phone)
+VALUES ('aaa', 4, 'חיים', 'מזרחי', '9f867136eaa208d9436b639e3517d2c3effa91d079694e12f1be30ad9b788003', '1@1.com', '1111'); --3
 
 INSERT INTO teams (team_name, description) VALUES ('IT', NULL); --1
 INSERT INTO teams (team_name, description) VALUES ('מכירות', NULL); --2
 
+INSERT INTO teams_assignment (team_id, user_id) VALUES (1, 2);
 
 INSERT INTO ref_hd_ticket_status (ticket_status_name) VALUES ('פתוח'); --1
 INSERT INTO ref_hd_ticket_status (ticket_status_name) VALUES ('בהמתנה'); --2

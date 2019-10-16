@@ -2,10 +2,10 @@
     {% if sub_route == "hd" %}
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="nav-link {%- if request.path=='/hd/home' %} active {% endif %}" href="{{url_for('hd.hd_home')}}">ראשי</a>
+                <a class="nav-link {%- if request.path==url_for('hd.hd_home') %} active {% endif %}" href="{{url_for('hd.hd_home')}}">ראשי</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">פניות פתוחות</a>
+                <a class="nav-link {%- if request.path==url_for('hd.my_team_ticket') %} active {% endif %}" href="{{url_for('hd.my_team_ticket')}}">פניות לטיפול הצוות שלי</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle {%- if request.path in ('/hd/setup-hd-categories') %} active {% endif %}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">הגדרות&nbsp</a>

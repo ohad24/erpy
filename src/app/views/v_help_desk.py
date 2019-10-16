@@ -3,6 +3,7 @@ from flask_login import current_user, login_required, logout_user, login_user
 from queries import q_hd, q_main
 from tools import psql_api, tools
 import os
+import json
 
 hd = flask.Blueprint('hd', 'hd', url_prefix='/hd', template_folder='templates/help_desk')
 
@@ -98,7 +99,15 @@ def set_ticket_header():
     db = psql_api.PostgresAPI(get_db())
     fd = flask.request.form
     db.exec_query(q_hd.update_ticket_header, {'category3id': fd['cat_3_id'],
-                                              'ticket_id': fd['ticket_id']})
+                                              'ticket_id': fd['ticket_id']}, one=True)
+    old_category3id = db.lod()
+    new_category3id = {'category3id': fd['cat_3_id']}
+    note_text = "עדכון כותרת"
+    db.exec_query(q_hd.ins_user_ticket_note_log, {'ticket_id': fd['ticket_id'],
+                                                  'note_text': note_text,
+                                                  'old_data': json.dumps(old_category3id),
+                                                  'new_data': json.dumps(new_category3id),
+                                                  'create_by': current_user.id})
     return flask.jsonify(None)
 
 

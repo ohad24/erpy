@@ -136,6 +136,8 @@ CREATE TABLE hd_ticket_notes (
     ticket_id INT REFERENCES hd_tickets (id) NOT NULL,
     ticket_note_type_id INT REFERENCES ref_hd_ticket_note_type (ticket_note_type_id) NOT NULL,
     note_text TEXT NOT NULL,
+    old_data jsonb,
+    new_data jsonb,
     create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     create_by INT REFERENCES users (user_id) NOT NULL
 );

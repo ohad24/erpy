@@ -53,9 +53,9 @@ get_user_tickets = """
            cat3.category_name AS cat3_name,
            cat2.category_name AS cat2_name,
            cat1.category_name AS cat1_name,
-           f_heb_date(t.close_date) AS close_date,
-           t.close_reason_id,
-           cr.ticket_close_reason_name
+           COALESCE(f_heb_date(t.close_date), '-') AS close_date,
+           t.close_reason_id AS close_reason_id,
+           COALESCE(cr.ticket_close_reason_name, '-') AS ticket_close_reason_name
     FROM ref_hd_ticket_status s,
          ref_hd_ticket_category cat3,
          ref_hd_ticket_category cat2,
@@ -108,6 +108,11 @@ ins_user_ticket_note = """INSERT INTO hd_ticket_notes (ticket_id, ticket_note_ty
                           VALUES (%(ticket_id)s, %(ticket_note_type_id)s,
                                   %(note_text)s, %(create_by)s)"""
 
+ins_user_ticket_note_log = """INSERT INTO hd_ticket_notes (ticket_id, ticket_note_type_id,
+                                                           note_text, old_data, new_data, create_by)
+                              VALUES (%(ticket_id)s, 4, %(note_text)s,
+                                      %(old_data)s, %(new_data)s, %(create_by)s)"""
+
 get_ticket_notes = """SELECT tn.*,
                              f_get_full_name(u.first_name, u.last_name) AS full_name,
                              f_heb_date(tn.create_date) AS heb_date,
@@ -128,10 +133,23 @@ get_ticket_files = """SELECT * FROM hd_ticket_files
 get_orig_filename = """SELECT file_name, mimetype FROM hd_ticket_files
                        WHERE gen_file_name=%(gen_file_name)s"""
 
-update_ticket_header = """UPDATE hd_tickets SET category3id = %(category3id)s
-                          WHERE id = %(ticket_id)s"""
+update_ticket_header = """WITH cur_data AS (
+                              SELECT category3id FROM hd_tickets
+                              WHERE id = %(ticket_id)s
+                          )
+                          UPDATE hd_tickets t SET category3id = %(category3id)s
+                          WHERE id = %(ticket_id)s
+                          RETURNING (SELECT category3id FROM cur_data)"""
 
 get_1st_cat = """SELECT id, category_name FROM ref_hd_ticket_category WHERE level = 1"""
+
+# get_2nd_cat_by_1st = """SELECT id, category_name
+#                         FROM ref_hd_ticket_category
+#                         WHERE parent_id = %(category1id)s"""
+#
+# get_3rd_cat_by_2nd = """SELECT id, category_name
+#                         FROM ref_hd_ticket_category
+#                         WHERE parent_id = %(category2id)s"""
 
 get_ticket_close_reason = """SELECT * FROM ref_hd_ticket_close_reason"""
 

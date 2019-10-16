@@ -23,6 +23,7 @@ $(document).ready(function() {
             $('#close-reason-name').val(th.ticket_close_reason_name);
             $('#header-form-close-data').show();
             $('.close-element').hide();
+            $('#header-edit-btn').remove();
         }
     }
 

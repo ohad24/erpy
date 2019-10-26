@@ -14,6 +14,7 @@ def hd_home():
     db.exec_query(q_hd.get_user_tickets,
                   {'user_id': current_user.id})
     l_user_tickets = db.lod()
+    flask.session['prv_page'] = flask.request.path
     return flask.render_template('hd_home.html',
                                  l_user_tickets=l_user_tickets)
 
@@ -77,12 +78,17 @@ def my_team_ticket():
     db.exec_query(q_hd.get_my_teams_tickets_header,
                   {'user_id': current_user.id})
     l_my_teams_tickets = db.lod()
+    flask.session['prv_page'] = flask.request.path
     return flask.render_template('my_team_ticket.html',
                                  l_my_teams_tickets=l_my_teams_tickets)
 
 
 @hd.route('/ticket', methods=["GET", "POST"])
 def ticket():
+    prv_page = ''
+    if 'prv_page' in flask.session.keys():
+        prv_page = flask.session['prv_page']
+        flask.session.pop('prv_page')
     ticket_id = flask.request.args.get('id', default=None, type = int)
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_1st_cat)
@@ -92,7 +98,8 @@ def ticket():
     return flask.render_template('ticket.html',
                                  ticket_id=ticket_id,
                                  cat_1_l=cat_1_l,
-                                 close_reason_l=close_reason_l)
+                                 close_reason_l=close_reason_l,
+                                 prv_page=prv_page)
 
 
 @hd.route('/_get_ticket_header', methods=['GET'])

@@ -12,7 +12,7 @@
                 <button class="btn btn-success" id="header-save-btn">שמירה</button>
                 <button class="btn btn-danger" id="header-cancel-btn">ביטול</button>
             </span>
-            <a class="btn btn-warning" href="{{url_for('hd.hd_home')}}" role="button">חזרה</a>
+            <a class="btn btn-warning" href="{% if 'my-team-ticket' in prv_page %} {{ url_for('hd.my_team_ticket') }} {% else %} {{ url_for('hd.hd_home') }} {% endif %}" role="button">חזרה</a>
         </div>
     </div>
 

@@ -60,4 +60,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/hd/set_child_cat_field.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/hd/open_ticket.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
+    <script>
+        $('#hd_ticket_note').summernote(summernote_defaults);
+    </script>
 {%- endblock scripts %}

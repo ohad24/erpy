@@ -78,7 +78,7 @@
                 <div class="form-row">
                     <div class="form-group col-sm-9" style="margin-bottom: 0;">
                         <b><label for="ticket-open-desc">תיאור הפניה</label></b>
-                        <textarea class="form-control-plaintext" id="ticket-open-desc" readonly disabled style="overflow: auto; height: auto; resize: none;"></textarea>
+                        <div class="form-control-plaintext" id="ticket-open-desc"></div>
                     </div>
                     <div class="form-group col-sm-3">
                         <b><label for="team-names">קבוצות מטפלות</label></b>
@@ -169,4 +169,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/hd/set_child_cat_field.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/hd/ticket.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/form_validation.js') }}"></script>
+    <script>
+        $('#hd_ticket_note').summernote(summernote_defaults);
+    </script>
 {%- endblock scripts %}

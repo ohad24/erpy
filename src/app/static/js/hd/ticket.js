@@ -18,8 +18,7 @@ $(document).ready(function() {
         $('#hd-cat-3').empty().append(new Option(th.cat3_name, th.cat3_id));
         $('#due-date').val(th.due_date);
         $('#assign-cust-by-name').val(th.assign_cust_name);
-        $('#ticket-open-desc').val(th.open_note_desc)
-            .attr('rows', th.open_note_desc.split(/\r\n|\r|\n/).length);
+        $('#ticket-open-desc').html(th.open_note_desc);
         $('#team-names').empty();
         $.each( th.team_names, function( key, team_name ) {
             $('#team-names').append($('<li>').append(team_name))

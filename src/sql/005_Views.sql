@@ -40,6 +40,7 @@ CREATE OR REPLACE VIEW v_get_tickets_header AS
            COALESCE(f_heb_date(t.close_date), '-') AS close_date,
            t.close_reason_id,
            COALESCE(cr.ticket_close_reason_name, '-') AS ticket_close_reason_name,
+           tn.note_text AS open_note_desc,
            t.assign_cust_id,
            t.create_by,
            t.category3id
@@ -56,6 +57,8 @@ CREATE OR REPLACE VIEW v_get_tickets_header AS
                        FROM hd_ticket_files f
                        WHERE t.id = f.ticket_id
                        GROUP BY ticket_id) AS fc ON true
+    INNER JOIN (SELECT f.ticket_id, f.note_text FROM hd_ticket_notes f
+                WHERE f.ticket_note_type_id = 1) AS tn ON tn.ticket_id = t.id
     WHERE 1=1
     AND t.ticket_status_id = s.ticket_status_id
     AND t.category3id = cat3.id

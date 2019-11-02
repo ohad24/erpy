@@ -82,6 +82,7 @@ get_ticket_notes = """SELECT tn.*,
                       AND tn.create_by = u.user_id
                       AND tn.ticket_note_type_id = nt.ticket_note_type_id
                       AND ticket_id = %(ticket_id)s
+                      AND tn.ticket_note_type_id != 1 /*open*/
                       ORDER BY tn.create_date DESC"""
 
 get_ticket_files = """SELECT * FROM hd_ticket_files

@@ -10,7 +10,7 @@
     <hr>
 
     <h5>הפניות שלי</h5>
-    <table class="table table table-striped table-hover table-sm table-responsive-md">
+    <table class="table table table-striped table-hover table-sm table-responsive-md" id="my-ticket-tbl">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -46,3 +46,12 @@
     </table>
 
 {% endblock %}
+
+{% block scripts %}
+    {{super()}}
+    <script>
+        $(document).ready( function () {
+            $('#my-ticket-tbl').DataTable({});
+        } );
+    </script>
+{%- endblock scripts %}

@@ -1,7 +1,7 @@
 {% extends "bootstrap/base.html" %}
 {% block content %}
     <h2>פניות פתוחות לטיפול</h2>
-    <table class="table table table-striped table-hover table-sm table-responsive-md">
+    <table class="table table table-striped table-hover table-sm table-responsive-md" id="my-team-tickets-tbl">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -37,3 +37,12 @@
     </table>
 
 {% endblock %}
+
+{% block scripts %}
+    {{super()}}
+    <script>
+        $(document).ready( function () {
+            $('#my-team-tickets-tbl').DataTable({});
+        } );
+    </script>
+{%- endblock scripts %}

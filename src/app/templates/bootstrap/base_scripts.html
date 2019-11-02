@@ -30,4 +30,10 @@
         {% endif %}
     {% endwith %}
 
+    <script>
+        $.extend( true, $.fn.dataTable.defaults, {
+            "language": {"url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Hebrew.json"}
+        });
+    </script>
+
 {%- endblock scripts %}

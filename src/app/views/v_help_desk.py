@@ -49,15 +49,16 @@ def setup_hd_categories():
 def open_hd_ticket():
     db = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
-        form_data = flask.request.form
+        fd = flask.request.form
         db.exec_query(q_hd.ins_ticket,
-                      {'category3id': form_data['hd-cat-3'],
-                       'user_id': current_user.id}, one=True)
+                      {'category3id': fd['hd-cat-3'],
+                       'assign_cust_id': fd['assign-cust'] if int(fd['assign-cust']) != 0 else current_user.id,
+                       'create_by': current_user.id}, one=True)
         ticket_id = db.lod()['ticket_id']
         db.exec_query(q_hd.ins_ticket_note,
                       {'ticket_id': ticket_id, 'ticket_note_id': 1,
-                       'note_text': form_data['hd_ticket_note'],
-                       'user_id': current_user.id})
+                       'note_text': fd['hd_ticket_note'],
+                       'create_by': current_user.id})
         for i, file in enumerate(flask.request.files.getlist('hd_ticket_multi_file')):
             if file and tools.allowed_file(file.filename):
                 gen_file_name, file_length, mimetype = tools.save_file('hd', file)
@@ -65,11 +66,16 @@ def open_hd_ticket():
                               {'ticket_id': ticket_id, 'file_name': file.filename,
                                'gen_file_name': gen_file_name, 'mimetype': mimetype,
                                'file_size': file_length, 'create_by': current_user.id})
-        return flask.redirect(flask.url_for('hd.open_hd_ticket'))
+        flask.flash('הפניה נפתחה בהצלחה - מספר {}'.format(ticket_id), 'success')
+        return flask.redirect(flask.url_for('hd.hd_home'))
     db.exec_query(q_hd.get_1st_cat)
     cat_1_l = db.lod()
+    db.exec_query(q_hd.get_user_ticket_assign_data,
+                  {'current_user_id': current_user.id})
+    assign_user_id_l = db.lod()
     return flask.render_template('open_ticket.html',
-                                 cat_1_l=cat_1_l)
+                                 cat_1_l=cat_1_l,
+                                 assign_user_id_l=assign_user_id_l)
 
 
 @hd.route('/my-team-ticket', methods=["GET", "POST"])

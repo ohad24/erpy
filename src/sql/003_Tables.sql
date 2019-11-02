@@ -125,6 +125,7 @@ CREATE TABLE hd_tickets (
     close_date TIMESTAMP WITH TIME ZONE,
     close_by INT REFERENCES users (user_id),
     close_reason_id INT REFERENCES ref_hd_ticket_close_reason (ticket_close_reason_id),
+    assign_cust_id INT REFERENCES users (user_id) NOT NULL,
     create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
     create_by INT REFERENCES users (user_id) NOT NULL
 );

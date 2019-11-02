@@ -22,14 +22,19 @@ get_children_cat_sql = """SELECT id, category_name
                           WHERE parent_id = %(parent_id)s
                           AND level = %(level)s"""
 
+get_user_ticket_assign_data = """SELECT user_id,
+                                        f_get_full_name(first_name, last_name) AS full_name 
+                                 FROM users u
+                                 WHERE user_id != %(current_user_id)s"""
+
 ins_ticket = """INSERT INTO hd_tickets (ticket_status_id, category3id, open_date,
-                                            due_orig_date, create_by)
-                VALUES (1, %(category3id)s, NOW(),
-                            f_calc_orig_hd_ticket_sla_date(%(category3id)s), %(user_id)s)
+                                        due_orig_date, assign_cust_id, create_by)
+                VALUES (1, %(category3id)s, NOW(), f_calc_orig_hd_ticket_sla_date(%(category3id)s),
+                        %(assign_cust_id)s, %(create_by)s)
                 RETURNING id AS ticket_id"""
                     
 ins_ticket_note = """INSERT INTO hd_ticket_notes (ticket_id, ticket_note_type_id, note_text, create_by) 
-                     VALUES (%(ticket_id)s, %(ticket_note_id)s, %(note_text)s, %(user_id)s)"""
+                     VALUES (%(ticket_id)s, %(ticket_note_id)s, %(note_text)s, %(create_by)s)"""
 
 ins_ticket_file = """INSERT INTO hd_ticket_files (ticket_id, file_name, gen_file_name, 
                                                    mimetype, file_size, create_by)
@@ -40,7 +45,7 @@ ins_cat3_teams = """INSERT INTO ref_hd_ticket_cat3_teams (cat3_id, team_id)
                     VALUES (%(cat3_id)s, %(team_id)s)"""
 
 get_user_tickets = """SELECT * FROM v_get_tickets_header
-                      WHERE create_by = %(user_id)s"""
+                      WHERE assign_cust_id = %(user_id)s"""
 
 get_ticket_header = """SELECT * FROM v_get_tickets_header
                        WHERE id = %(ticket_id)s"""

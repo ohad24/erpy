@@ -36,9 +36,11 @@ CREATE OR REPLACE VIEW v_get_tickets_header AS
            cat1.id AS cat1_id,
            f_get_full_name(u1.first_name, u1.last_name) AS create_by_f_name,
            f_get_full_name(u2.first_name, u2.last_name) AS close_by_f_name,
+           f_get_full_name(u3.first_name, u3.last_name) AS assign_cust_name,
            COALESCE(f_heb_date(t.close_date), '-') AS close_date,
            t.close_reason_id,
            COALESCE(cr.ticket_close_reason_name, '-') AS ticket_close_reason_name,
+           t.assign_cust_id,
            t.create_by,
            t.category3id
     FROM ref_hd_ticket_status s,
@@ -46,6 +48,7 @@ CREATE OR REPLACE VIEW v_get_tickets_header AS
          ref_hd_ticket_category cat2,
          ref_hd_ticket_category cat1,
          users u1,
+         users u3,
          hd_tickets t
     LEFT JOIN users u2 ON t.close_by = u2.user_id
     LEFT JOIN ref_hd_ticket_close_reason cr ON t.close_reason_id = cr.ticket_close_reason_id
@@ -58,4 +61,5 @@ CREATE OR REPLACE VIEW v_get_tickets_header AS
     AND t.category3id = cat3.id
     AND cat3.parent_id = cat2.id
     AND cat2.parent_id = cat1.id
-    AND t.create_by = u1.user_id;
+    AND t.create_by = u1.user_id
+    AND t.assign_cust_id = u3.user_id;

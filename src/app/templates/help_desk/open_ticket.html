@@ -30,10 +30,19 @@
                 <label for="hd_ticket_note">תיאור הפניה</label>
                 <textarea class="form-control" id="hd_ticket_note" name="hd_ticket_note" rows="3" required></textarea>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-3">
                 <label for="hd_ticket_multi_file">בחירת קבצים מרובה</label>
                 <input type="file" class="form-control-file" id="hd_ticket_multi_file" name="hd_ticket_multi_file" multiple>
                 <small class="form-text text-muted">עד 3 קבצים, כל קובץ עד 5 מגה</small>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="assign-cust">פתח עבור משתמש אחר</label>
+                <select class="form-control" name="assign-cust" id="assign-cust" required>
+                    <option selected value="0"> -- ללא -- </option>
+                    {% for user in assign_user_id_l %}
+                        <option value="{{ user['user_id'] }}">{{ user['full_name'] }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
         <div class="form-row">

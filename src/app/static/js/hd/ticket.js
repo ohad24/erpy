@@ -20,6 +20,7 @@ $(document).ready(function() {
         $('#assign-cust-by-name').val(th.assign_cust_name);
         $('#ticket-open-desc').val(th.open_note_desc)
             .attr('rows', th.open_note_desc.split(/\r\n|\r|\n/).length);
+        $('#team-names').empty();
         $.each( th.team_names, function( key, team_name ) {
             $('#team-names').append($('<li>').append(team_name))
         });
@@ -92,7 +93,7 @@ $(document).ready(function() {
                     $('#hd_ticket_note').val('');
                     notify_params.className = 'success';
                     $.notify('הפניה נסגרה בהצלחה', notify_params);
-                    get_ticket_header();
+                    setTimeout(function () {get_ticket_header();}, 750);
                     get_user_notes();
                 }
             } else {

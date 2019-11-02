@@ -42,6 +42,7 @@ CREATE OR REPLACE VIEW v_get_tickets_header AS
            COALESCE(cr.ticket_close_reason_name, '-') AS ticket_close_reason_name,
            tn.note_text AS open_note_desc,
            t.assign_cust_id,
+           cat3_tn.team_names,
            t.create_by,
            t.category3id
     FROM ref_hd_ticket_status s,
@@ -59,6 +60,10 @@ CREATE OR REPLACE VIEW v_get_tickets_header AS
                        GROUP BY ticket_id) AS fc ON true
     INNER JOIN (SELECT f.ticket_id, f.note_text FROM hd_ticket_notes f
                 WHERE f.ticket_note_type_id = 1) AS tn ON tn.ticket_id = t.id
+    INNER JOIN (SELECT tct.cat3_id, ARRAY_AGG(t.team_name) AS team_names
+                FROM ref_hd_ticket_cat3_teams tct, teams t
+                WHERE tct.team_id = t.team_id
+                GROUP BY tct.cat3_id) cat3_tn ON cat3_tn.cat3_id = t.category3id
     WHERE 1=1
     AND t.ticket_status_id = s.ticket_status_id
     AND t.category3id = cat3.id

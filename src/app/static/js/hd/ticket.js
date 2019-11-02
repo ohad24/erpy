@@ -20,6 +20,9 @@ $(document).ready(function() {
         $('#assign-cust-by-name').val(th.assign_cust_name);
         $('#ticket-open-desc').val(th.open_note_desc)
             .attr('rows', th.open_note_desc.split(/\r\n|\r|\n/).length);
+        $.each( th.team_names, function( key, team_name ) {
+            $('#team-names').append($('<li>').append(team_name))
+        });
         if (th.ticket_status_id == 3){
             $('#close-by-name').val(th.close_by_f_name);
             $('#close-by-date').val(th.close_date);

@@ -95,7 +95,7 @@ def ticket():
     if 'prv_page' in flask.session.keys():
         prv_page = flask.session['prv_page']
         flask.session.pop('prv_page')
-    ticket_id = flask.request.args.get('id', default=None, type = int)
+    ticket_id = flask.request.args.get('id', default=None, type=int)
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_1st_cat)
     cat_1_l = db.lod()

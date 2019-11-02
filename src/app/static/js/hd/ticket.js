@@ -80,7 +80,7 @@ $(document).ready(function() {
     function add_user_note(){
         let note_text = $('#hd_ticket_note').val();
         let close_reason_checked = $('#close-reason-cb').prop('checked');
-        if (note_text.length > 0) {
+        if ($('#hd_ticket_note').summernote('isEmpty') === false) {
             if (close_reason_checked) {
                 let close_reason_id = $("#close-reason option:selected").val();
                 if (close_reason_id != ""){
@@ -105,6 +105,7 @@ $(document).ready(function() {
                 $.notify('התיעוד נוסף בהצחה', notify_params);
                 get_user_notes();
             }
+            $('#hd_ticket_note').summernote('reset');
         }
     }
 

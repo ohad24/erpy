@@ -4,20 +4,22 @@
             <li class="nav-item">
                 <a class="nav-link {%- if request.path==url_for('hd.hd_home') %} active {% endif %}" href="{{url_for('hd.hd_home')}}">ראשי - הפניות שלי</a>
             </li>
-            {% if current_user.permission_level >= 40 %}
-                <li class="nav-item">
-                    <a class="nav-link {%- if request.path==url_for('hd.my_team_ticket') %} active {% endif %}" href="{{url_for('hd.my_team_ticket')}}">פניות לטיפול הצוות שלי</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {%- if request.path in ('/hd/setup-hd-categories') %} active {% endif %}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">הגדרות&nbsp</a>
-                    <div class="dropdown-menu dropdown-menu-right text-right">
-                        <a class="dropdown-item" href="{{url_for('hd.setup_hd_categories')}}">סיווגים</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                  </li>
+            {% if current_user and current_user.is_authenticated %}
+                {% if current_user.permission_level >= 40 %}
+                    <li class="nav-item">
+                        <a class="nav-link {%- if request.path==url_for('hd.my_team_ticket') %} active {% endif %}" href="{{url_for('hd.my_team_ticket')}}">פניות לטיפול הצוות שלי</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {%- if request.path in ('/hd/setup-hd-categories') %} active {% endif %}" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">הגדרות&nbsp</a>
+                        <div class="dropdown-menu dropdown-menu-right text-right">
+                            <a class="dropdown-item" href="{{url_for('hd.setup_hd_categories')}}">סיווגים</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                      </li>
+                {% endif %}
             {% endif %}
             <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>

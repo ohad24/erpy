@@ -10,40 +10,44 @@
     <hr>
 
     <h5>הפניות שלי</h5>
-    <table class="table table table-striped table-hover table-sm table-responsive-md" id="my-ticket-tbl">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">סטטוס</th>
-                <th scope="col">סיווג ראשי</th>
-                <th scope="col">סיווג משני</th>
-                <th scope="col">סיווג שלישי</th>
-                <th scope="col">תאריך פתיחה</th>
-                <th scope="col">צפי לסיום</th>
-                <th scope="col">תאריך סגירה</th>
-                <th scope="col">סטטוס סגירה</th>
-                <th scope="col">כמות קבצים</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ticket in l_user_tickets %}
+    {% if current_user and current_user.is_authenticated %}
+        <table class="table table table-striped table-hover table-sm table-responsive-md" id="my-ticket-tbl">
+            <thead>
                 <tr>
-                    <th scope="row">
-                        <a href="{{ url_for('hd.ticket', id=ticket['id']) }}">{{ ticket['id'] }}</a>
-                    </th>
-                    <td>{{ ticket['ticket_status_name'] }}</td>
-                    <td>{{ ticket['cat1_name'] }}</td>
-                    <td>{{ ticket['cat2_name'] }}</td>
-                    <td>{{ ticket['cat3_name'] }}</td>
-                    <td>{{ ticket['open_date'] }}</td>
-                    <td>{{ ticket['due_date'] }}</td>
-                    <td>{{ ticket['close_date'] }}</td>
-                    <td>{{ ticket['ticket_close_reason_name'] }}</td>
-                    <td>{{ ticket['f_count'] }}</td>
+                    <th scope="col">#</th>
+                    <th scope="col">סטטוס</th>
+                    <th scope="col">סיווג ראשי</th>
+                    <th scope="col">סיווג משני</th>
+                    <th scope="col">סיווג שלישי</th>
+                    <th scope="col">תאריך פתיחה</th>
+                    <th scope="col">צפי לסיום</th>
+                    <th scope="col">תאריך סגירה</th>
+                    <th scope="col">סטטוס סגירה</th>
+                    <th scope="col">כמות קבצים</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for ticket in l_user_tickets %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{{ url_for('hd.ticket', id=ticket['id']) }}">{{ ticket['id'] }}</a>
+                        </th>
+                        <td>{{ ticket['ticket_status_name'] }}</td>
+                        <td>{{ ticket['cat1_name'] }}</td>
+                        <td>{{ ticket['cat2_name'] }}</td>
+                        <td>{{ ticket['cat3_name'] }}</td>
+                        <td>{{ ticket['open_date'] }}</td>
+                        <td>{{ ticket['due_date'] }}</td>
+                        <td>{{ ticket['close_date'] }}</td>
+                        <td>{{ ticket['ticket_close_reason_name'] }}</td>
+                        <td>{{ ticket['f_count'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        נא להתחבר
+    {% endif %}
 
 {% endblock %}
 

@@ -70,6 +70,7 @@ def logout():
 
 
 @index_blueprint.route('/users', methods=["GET", "POST"])
+@login_required
 def users():
     db = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
@@ -98,6 +99,7 @@ def users():
 
 
 @index_blueprint.route('/teams', methods=["GET", "POST"])
+@login_required
 def teams():
     db = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':

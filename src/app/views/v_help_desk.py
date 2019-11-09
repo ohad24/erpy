@@ -10,16 +10,19 @@ hd = flask.Blueprint('hd', 'hd', url_prefix='/hd', template_folder='templates/he
 
 @hd.route('/home')
 def hd_home():
-    db = psql_api.PostgresAPI(get_db())
-    db.exec_query(q_hd.get_user_tickets,
-                  {'user_id': current_user.id})
-    l_user_tickets = db.lod()
-    flask.session['prv_page'] = flask.request.path
+    l_user_tickets = []
+    if current_user.is_authenticated:
+        db = psql_api.PostgresAPI(get_db())
+        db.exec_query(q_hd.get_user_tickets,
+                      {'user_id': current_user.id})
+        l_user_tickets = db.lod()
+        flask.session['prv_page'] = flask.request.path
     return flask.render_template('hd_home.html',
                                  l_user_tickets=l_user_tickets)
 
 
 @hd.route('/setup-hd-categories', methods=["GET", "POST"])
+@login_required
 def setup_hd_categories():
     db = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
@@ -46,6 +49,7 @@ def setup_hd_categories():
 
 
 @hd.route('/open-hd-ticket', methods=["GET", "POST"])
+@login_required
 def open_hd_ticket():
     db = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
@@ -79,6 +83,7 @@ def open_hd_ticket():
 
 
 @hd.route('/my-team-ticket', methods=["GET", "POST"])
+@login_required
 def my_team_ticket():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_my_teams_tickets_header,
@@ -90,6 +95,7 @@ def my_team_ticket():
 
 
 @hd.route('/ticket', methods=["GET", "POST"])
+@login_required
 def ticket():
     prv_page = ''
     if 'prv_page' in flask.session.keys():
@@ -109,6 +115,7 @@ def ticket():
 
 
 @hd.route('/_get_ticket_header', methods=['GET'])
+@login_required
 def get_ticket_header():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_ticket_header,
@@ -118,6 +125,7 @@ def get_ticket_header():
 
 
 @hd.route('/_set_ticket_header', methods=['POST'])
+@login_required
 def set_ticket_header():
     db = psql_api.PostgresAPI(get_db())
     fd = flask.request.form
@@ -135,6 +143,7 @@ def set_ticket_header():
 
 
 @hd.route('/_add_ticket_user_note', methods=['POST'])
+@login_required
 def add_ticket_user_note():
     db = psql_api.PostgresAPI(get_db())
     fd = flask.request.form
@@ -146,6 +155,7 @@ def add_ticket_user_note():
 
 
 @hd.route('/_close_ticket', methods=['POST'])
+@login_required
 def close_ticket():
     db = psql_api.PostgresAPI(get_db())
     fd = flask.request.form
@@ -160,6 +170,7 @@ def close_ticket():
 
 
 @hd.route('/_get_ticket_user_notes', methods=['GET'])
+@login_required
 def get_ticket_user_notes():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_ticket_notes,
@@ -168,6 +179,7 @@ def get_ticket_user_notes():
 
 
 @hd.route('/_get_ticket_user_files', methods=['GET'])
+@login_required
 def get_ticket_user_files():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_ticket_files,
@@ -176,6 +188,7 @@ def get_ticket_user_files():
 
 
 @hd.route('/users_files/<gen_file_name>')
+@login_required
 def download_hd_ticket_file(gen_file_name):
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_orig_filename,
@@ -190,6 +203,7 @@ def download_hd_ticket_file(gen_file_name):
 
 
 @hd.route('/_update_select_category', methods=['GET'])
+@login_required
 def update_select_category():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_top_ticket_category,
@@ -198,6 +212,7 @@ def update_select_category():
 
 
 @hd.route('/_get_children_category', methods=['GET'])
+@login_required
 def get_children_category():
     db = psql_api.PostgresAPI(get_db())
     db.exec_query(q_hd.get_children_cat_sql,

@@ -24,6 +24,7 @@
                     <th scope="col">תאריך סגירה</th>
                     <th scope="col">סטטוס סגירה</th>
                     <th scope="col">כמות קבצים</th>
+                    <th scope="col">תיאור פניה</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,7 @@
                         <td>{{ ticket['close_date'] }}</td>
                         <td>{{ ticket['ticket_close_reason_name'] }}</td>
                         <td>{{ ticket['f_count'] }}</td>
+                        <td><button type="button" class="btn btn-link ticket-desc" value="{{ ticket['open_note_desc'] }}"  data-toggle="modal" data-target="#ticket-desc-modal">הצג</button></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -48,6 +50,28 @@
     {% else %}
         נא להתחבר
     {% endif %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="ticket-desc-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between">
+                    <h5 class="modal-title" id="ticket-desc-modal-title">מס' פניה <span id="model-title-ticket-id"></span></h5>
+                    <div class="text-left">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
@@ -58,4 +82,5 @@
             $('#my-ticket-tbl').DataTable({});
         } );
     </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/hd/hd_home.js') }}"></script>
 {%- endblock scripts %}

@@ -91,7 +91,7 @@ get_ticket_files = """SELECT * FROM hd_ticket_files
 get_orig_filename = """SELECT file_name, mimetype FROM hd_ticket_files
                        WHERE gen_file_name=%(gen_file_name)s"""
 
-update_ticket_header = """WITH cur_data AS (
+update_ticket_category = """WITH cur_data AS (
                               SELECT category3id FROM hd_tickets
                               WHERE id = %(ticket_id)s
                           )

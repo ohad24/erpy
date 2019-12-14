@@ -129,11 +129,11 @@ def get_ticket_header():
 def set_ticket_header():
     db = psql_api.PostgresAPI(get_db())
     fd = flask.request.form
-    db.exec_query(q_hd.update_ticket_header, {'category3id': fd['cat_3_id'],
-                                              'ticket_id': fd['ticket_id']}, one=True)
+    db.exec_query(q_hd.update_ticket_category, {'category3id': fd['cat_3_id'],
+                                                'ticket_id': fd['ticket_id']}, one=True)
     old_category3id = db.lod()
     new_category3id = {'category3id': fd['cat_3_id']}
-    note_text = "עדכון כותרת"
+    note_text = "עדכון סיווג"
     db.exec_query(q_hd.ins_user_ticket_note_log, {'ticket_id': fd['ticket_id'],
                                                   'note_text': note_text,
                                                   'old_data': json.dumps(old_category3id),

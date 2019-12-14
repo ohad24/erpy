@@ -7,88 +7,89 @@
             {{ ticket_id }}</h2>
         </div>
         <div class="col text-left">
-            {% if current_user.permission_level >= 40 %}
-                <button class="btn btn-primary" id="header-edit-btn">עריכה</button>
-            {% endif %}
-            <span id="header-edit-btn-div" style="display: none">
-                <button class="btn btn-success" id="header-save-btn">שמירה</button>
-                <button class="btn btn-danger" id="header-cancel-btn">ביטול</button>
-            </span>
             <a class="btn btn-warning" href="{% if 'my-team-ticket' in prv_page %} {{ url_for('hd.my_team_ticket') }} {% else %} {{ url_for('hd.hd_home') }} {% endif %}" role="button">חזרה</a>
         </div>
     </div>
 
-    <form id="header-form" class="needs-validation" novalidate>
-        <div class="card">
-            <div class="card-body">
-                <div class="form-row" id="header-form-close-data" style="display: none">
-                    <div class="form-group col-sm">
-                        <b><label for="close-by-name">נסגרה ע"י</label></b>
-                        <input type="text" readonly class="form-control-plaintext" id="close-by-name" name="close-by-name" value="">
-                    </div>
-                    <div class="form-group col-sm">
-                        <b><label for="close-by-date">נסגרה בתאריך</label></b>
-                        <input type="text" readonly class="form-control-plaintext" id="close-by-date" name="close-by-date" value="">
-                    </div>
-                    <div class="form-group col-sm">
-                        <b><label for="close-reason-name">סיבת סגירה</label></b>
-                        <input type="text" readonly class="form-control-plaintext" id="close-reason-name" name="close-reason-name" value="">
-                    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="form-row" id="header-form-close-data" style="display: none">
+                <div class="form-group col-sm">
+                    <b><label for="close-by-name">נסגרה ע"י</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="close-by-name" name="close-by-name" value="">
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-sm">
-                        <b><label for="status-name">סטטוס</label></b>
-                        <input type="text" readonly class="form-control-plaintext" id="status-name" name="status-name" value="">
-                    </div>
-                    <div class="form-group col-sm">
-                        <b><label for="assign-cust-by-name">לקוח משוייך</label></b>
-                        <input type="text" readonly class="form-control-plaintext" id="assign-cust-by-name" name="assign-cust-by-name" value="">
-                    </div>
-                    <div class="form-group col-sm">
-                        <b><label for="create-by-name">נוצרה ע"י</label></b>
-                        <input type="text" readonly class="form-control-plaintext" id="create-by-name" name="create-by-name" value="">
-                    </div>
-                    <div class="form-group col-sm">
-                        <b><label for="open-date">נוצרה בתאריך</label></b>
-                        <input type="text" readonly class="form-control-plaintext" id="open-date" name="open-date" value="">
-                    </div>
-                    <div class="form-group col-sm">
-                        <b><label for="due-date">צפי לטיפול</label></b>
-                        <input type="text" readonly class="form-control-plaintext" id="due-date" name="due-date" value="">
-                    </div>
+                <div class="form-group col-sm">
+                    <b><label for="close-by-date">נסגרה בתאריך</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="close-by-date" name="close-by-date" value="">
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-sm">
-                        <b><label for="hd-cat-1">סיווג 1</label></b>
-                        <select class="form-control" name="hd-cat-1" id="hd-cat-1" required disabled>
-                            {% for opt in cat_1_l %}
-                                <option value="{{ opt['id'] }}">{{ opt['category_name'] }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group col-sm">
-                        <b><label for="hd-cat-2">סיווג 2</label></b>
-                        <select class="form-control" name="hd-cat-2" id="hd-cat-2" required disabled></select>
-                    </div>
-                    <div class="form-group col-sm">
-                        <b><label for="hd-cat-3">סיווג 3</label></b>
-                        <select class="form-control" name="hd-cat-3" id="hd-cat-3" required disabled></select>
-                    </div>
+                <div class="form-group col-sm">
+                    <b><label for="close-reason-name">סיבת סגירה</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="close-reason-name" name="close-reason-name" value="">
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-sm-9" style="margin-bottom: 0;">
-                        <b><label for="ticket-open-desc">תיאור הפניה</label></b>
-                        <div class="form-control-plaintext" id="ticket-open-desc"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm">
+                    <b><label for="status-name">סטטוס</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="status-name" name="status-name" value="">
+                </div>
+                <div class="form-group col-sm">
+                    <b><label for="assign-cust-by-name">לקוח משוייך</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="assign-cust-by-name" name="assign-cust-by-name" value="">
+                </div>
+                <div class="form-group col-sm">
+                    <b><label for="create-by-name">נוצרה ע"י</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="create-by-name" name="create-by-name" value="">
+                </div>
+                <div class="form-group col-sm">
+                    <b><label for="open-date">נוצרה בתאריך</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="open-date" name="open-date" value="">
+                </div>
+                <div class="form-group col-sm">
+                    <b><label for="due-date">צפי לטיפול</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="due-date" name="due-date" value="">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-sm">
+                    <b><label for="h-hd-cat-1">סיווג 1</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="h-hd-cat-1" name="h-hd-cat-1">
+                </div>
+                <div class="form-group col-sm">
+                    <b><label for="h-hd-cat-2">סיווג 2</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="h-hd-cat-2" name="h-hd-cat-2">
+                </div>
+                <div class="form-group col-sm">
+                    <b><label for="h-hd-cat-3">סיווג 3</label></b>
+                    <input type="text" readonly class="form-control-plaintext" id="h-hd-cat-3" name="h-hd-cat-3">
+                </div>
+                {% if current_user.permission_level >= 40 %}
+                    <div class="form-group col-sm" id="update-cat-div">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-cat" aria-expanded="false" aria-controls="collapse-cat">
+                            עדכן סיווגים
+                        </button>
                     </div>
-                    <div class="form-group col-sm-3">
-                        <b><label for="team-names">קבוצות מטפלות</label></b>
-                        <ul class="list-group" id="team-names">
-                        </ul>
+                {% endif %}
+            </div>
+            <div class="form-row">
+                <div class="collapse" id="collapse-cat" style="margin-bottom: 10px;">
+                    <div class="card card-body">
+                        {% include "help_desk/collapses/ticket_edit_category.html" %}
                     </div>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group col-sm-9" style="margin-bottom: 0;">
+                    <b><label for="ticket-open-desc">תיאור הפניה</label></b>
+                    <div class="form-control-plaintext" id="ticket-open-desc"></div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <b><label for="team-names">קבוצות מטפלות</label></b>
+                    <ul class="list-group" id="team-names">
+                    </ul>
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 
     <hr>
 

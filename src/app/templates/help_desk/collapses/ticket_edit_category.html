@@ -1,0 +1,33 @@
+<form id="ticket-cat-form" class="needs-validation" novalidate>
+    <div class="form-row">
+        <div class="form-group col-md">
+            <label for="hd-cat-1">סיווג 1</label>
+            <select class="form-control" name="hd-cat-1" id="hd-cat-1" required>
+                <option selected value disabled> -- ללא -- </option>
+                {% for opt in cat_1_l %}
+                    <option value="{{ opt['id'] }}">{{ opt['category_name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md">
+            <label for="hd-cat-2">סיווג 2</label>
+            <select class="form-control" name="hd-cat-2" id="hd-cat-2" required>
+                <option selected value disabled> -- ללא -- </option>
+            </select>
+        </div>
+        <div class="form-group col-md">
+            <label for="hd-cat-3">סיווג 3</label>
+            <select class="form-control" name="hd-cat-3" id="hd-cat-3" required>
+                <option selected value disabled> -- ללא -- </option>
+            </select>
+        </div>
+    </div>
+</form>
+<div class="form-row">
+    <div class="form-group col-md" style="margin-bottom: 0px;">
+        <div class="text-left">
+            <button class="btn btn-link" id="cat-header-save-btn">עדכן</button>
+            <button class="btn btn-link" id="cat-header-cancel-btn">סגור</button>
+        </div>
+    </div>
+</div>

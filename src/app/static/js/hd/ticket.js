@@ -13,9 +13,9 @@ $(document).ready(function() {
         $('#status-name').val(th.ticket_status_name);
         $('#open-date').val(th.open_date);
         $('#create-by-name').val(th.create_by_f_name);
-        $('#hd-cat-1').val(th.cat1_id);
-        $('#hd-cat-2').empty().append(new Option(th.cat2_name, th.cat2_id));
-        $('#hd-cat-3').empty().append(new Option(th.cat3_name, th.cat3_id));
+        $('#h-hd-cat-1').val(th.cat1_name);
+        $('#h-hd-cat-2').val(th.cat2_name);
+        $('#h-hd-cat-3').val(th.cat3_name);
         $('#due-date').val(th.due_date);
         $('#assign-cust-by-name').val(th.assign_cust_name);
         $('#ticket-open-desc').html(th.open_note_desc);
@@ -29,48 +29,35 @@ $(document).ready(function() {
             $('#close-reason-name').val(th.ticket_close_reason_name);
             $('#header-form-close-data').show();
             $('.close-element').hide();
-            $('#header-edit-btn').remove();
+            $('#update-cat-div').remove();
         }
     }
 
 
-    function edit_ticket_header(){
-        $('#hd-cat-1').attr("disabled", false);
-        $('#hd-cat-2').attr("disabled", false);
-        $('#hd-cat-3').attr("disabled", false);
-        $('#header-edit-btn').hide();
-        $('#header-edit-btn-div').show();
-    }
-
-    $('#header-edit-btn').on('click', edit_ticket_header);
-
-
-    function save_ticket_header() {
-        hf = $('#header-form')[0];
+    function cat_header_save() {
+        let hf = $('#ticket-cat-form')[0];
         if (hf.checkValidity() === true) {
             $.post($SCRIPT_ROOT + '/hd/_set_ticket_header', {
                 cat_3_id: $('#hd-cat-3').val(),
                 ticket_id: ticket_id
             });
-            reset_header()
+            setTimeout(function () {reset_header();}, 750);
         } else {
             hf.classList.add('was-validated');
         }
     }
 
-    $('#header-save-btn').on('click', save_ticket_header);
+    $('#cat-header-save-btn').on('click', cat_header_save);
 
 
-    $('#header-cancel-btn').on('click', function () {
-        reset_header()
+    $('#cat-header-cancel-btn').on('click', function () {
+        reset_header();
     });
 
 
     function reset_header() {
-        $('#header-form')[0].classList.remove('was-validated');
-        $('#hd-cat-1').attr("disabled", true);
-        $('#hd-cat-2').attr("disabled", true);
-        $('#hd-cat-3').attr("disabled", true);
+        $('#collapse-cat').collapse('hide');
+        $('#ticket-cat-form')[0].classList.remove('was-validated');
         get_ticket_header();
         $('#header-edit-btn').show();
         $('#header-edit-btn-div').hide();

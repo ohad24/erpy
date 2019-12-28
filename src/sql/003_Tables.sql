@@ -5,6 +5,10 @@ DROP TYPE IF EXISTS sex CASCADE;
 CREATE TYPE sex AS ENUM ('male', 'female');
 
 
+DROP TYPE IF EXISTS email_status CASCADE;
+CREATE TYPE email_status AS ENUM ('SUBMITTED', 'EXECUTING', 'SENT', 'ERROR');
+
+
 DROP DOMAIN IF EXISTS email CASCADE;
 CREATE DOMAIN email AS VARCHAR CHECK (VALUE ~* '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$');
 
@@ -153,5 +157,18 @@ CREATE TABLE hd_ticket_files (
     mimetype VARCHAR(200),
     file_size BIGINT NOT NULL,
     create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    create_by INT REFERENCES users (user_id) NOT NULL
+);
+
+
+DROP TABLE IF EXISTS emails;
+CREATE TABLE emails (
+    id SERIAL PRIMARY KEY NOT NULL,
+    email_status email_status NOT NULL DEFAULT 'SUBMITTED',
+    recipients text[] NOT NULL,
+    subject text NOT NULL,
+    body text NOT NULL,
+    create_date TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+    end_date TIMESTAMP WITH TIME ZONE,
     create_by INT REFERENCES users (user_id) NOT NULL
 );

@@ -26,3 +26,7 @@ ins_team = """INSERT INTO teams (team_name, description)
               VALUES (%(team_name)s, %(team_desc)s)"""
 
 get_all_teams = """select team_id, team_name, description from teams"""
+
+
+ins_email = """INSERT INTO emails (email_status, recipients, subject, body, create_by)
+               VALUES (%(email_status)s, %(recipients)s, %(subject)s, %(body)s, %(create_by)s)"""

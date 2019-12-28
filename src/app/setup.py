@@ -18,7 +18,7 @@ for dir in l_directory:
         os.makedirs(dir)
 
 app = flask.Flask('erpy')
-app.secret_key = os.environ['ERPY_APP_KEY']
+app.secret_key = os.environ['SECRET_KEY']
 
 app.config['UPLOAD_FOLDER'] = 'users_files'
 

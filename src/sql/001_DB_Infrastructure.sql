@@ -6,15 +6,15 @@ CREATE USER erpy WITH
     INHERIT
     NOREPLICATION
     CONNECTION LIMIT -1
-    PASSWORD 'erpy'; --FIXME: set password variable
+    PASSWORD :postgres_password; --FIXME: set password variable
 GRANT postgres TO erpy WITH ADMIN OPTION; --FIXME: remove this (or alter)
 -- check DB TZ on dba
-ALTER USER erpy SET timezone='Asia/Jerusalem';
+ALTER USER erpy SET timezone=:tz;
 
-DROP DATABASE IF EXISTS :env;
+DROP DATABASE IF EXISTS :postgres_db;
 
 -- create db
-CREATE DATABASE :env
+CREATE DATABASE :postgres_db
     WITH
     OWNER = erpy
     ENCODING = 'UTF8'
@@ -23,7 +23,7 @@ CREATE DATABASE :env
 	  LC_CTYPE = 'he_IL.utf8'
 	  TEMPLATE 'template0';
 
-ALTER DATABASE :env SET lc_time TO 'he_IL.utf8';
+ALTER DATABASE :postgres_db SET lc_time TO :lang;
 
 -- GRANT CONNECT ON DATABASE :env TO :app_user;
 -- SET lc_time TO 'he_IL.utf8';

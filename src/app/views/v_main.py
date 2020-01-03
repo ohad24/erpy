@@ -1,5 +1,5 @@
 from setup import csrf, get_db, User, app, flask
-from tools import psql_api, passwords
+from tools import psql_api
 from flask_login import current_user, login_required, logout_user, login_user
 from queries import q_main
 

@@ -1,12 +1,13 @@
 version: "3.7"
 services:
-  postgres:
+  db:
     build:
       context: .
       dockerfile: docker/postgres/Dockerfile
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PASS_SALT: ${SECRET_KEY}
     ports:
       - 5432:5432
 
@@ -15,16 +16,16 @@ services:
       context: .
       dockerfile: docker/flask/Dockerfile
     depends_on:
-      - postgres
+      - db
     environment:
       SECRET_KEY: ${SECRET_KEY}
       ERPY_PG_USER: erpy
       ERPY_PG_PASS: ${POSTGRES_PASSWORD}
-      ERPY_PG_HOST: postgres
+      ERPY_PG_HOST: db
       ERPY_PG_PORT: 5432
       ERPY_PG_DB: ${POSTGRES_DB}
     ports:
-    - 5000:5000
+      - 5000:5000
 
   web:
     build:
@@ -33,4 +34,5 @@ services:
     depends_on:
       - app
     ports:
-    - 80:80
+      - 5200:5200
+    # command: [nginx-debug, '-g', 'daemon off;']

@@ -31,3 +31,12 @@ BEGIN
     WHERE id = category3id;
     RETURN v_due_orig_date;
 END $$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION f_hash_pass(pass VARCHAR)
+RETURNS VARCHAR AS $$
+DECLARE salt VARCHAR(4000);
+BEGIN
+    SELECT P_VAL into salt FROM params WHERE p_name = 'PASS_SALT';
+    RETURN(SELECT crypt(pass, salt));
+END$$ LANGUAGE plpgsql;

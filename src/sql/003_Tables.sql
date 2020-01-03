@@ -13,6 +13,15 @@ DROP DOMAIN IF EXISTS email CASCADE;
 CREATE DOMAIN email AS VARCHAR CHECK (VALUE ~* '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$');
 
 
+DROP TABLE IF EXISTS params CASCADE;
+CREATE TABLE params (
+    id SERIAL PRIMARY KEY NOT NULL,
+    p_name VARCHAR(45) UNIQUE NOT NULL,
+    p_labels JSONB,
+    p_val VARCHAR(200) NOT NULL
+);
+
+
 DROP TABLE IF EXISTS ref_lang CASCADE;
 CREATE TABLE ref_lang (
   lang_id SERIAL PRIMARY KEY NOT NULL,

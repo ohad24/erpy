@@ -25,8 +25,8 @@ def login():
     pg_api = psql_api.PostgresAPI(get_db())
     if flask.request.method == 'POST':
         username = flask.request.form['username']
-        password = passwords.hash_password(flask.request.form['password'])
-        # password = flask.request.form['password']
+        # password = passwords.hash_password(flask.request.form['password'])
+        password = flask.request.form['password']
         pg_api.exec_query(q_main.get_user_id,
                           {'username': username, 'passkey': password},
                           True
@@ -78,7 +78,7 @@ def users():
         db.exec_query(q_main.ins_user, {
             'user_name': fd['username'], 'user_class_id': fd['user-class-select-list'],
             'first_name': fd['f_name'], 'last_name': fd['l_name'],
-            'passkey': passwords.hash_password(fd['password']),
+            'passkey': fd['password'],
             'email': fd['email'], 'phone': fd['phone'], 'create_by': current_user.id}, one=True)
         user_id = db.lod()['user_id']
         for ut in fd.getlist('teams-select-list'):

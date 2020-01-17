@@ -8,4 +8,4 @@ ENV TZ=Asia/Jerusalem
 
 COPY src/sql/*.sql /sql/
 
-COPY docker/postgres/init-user-db.sh /docker-entrypoint-initdb.d/init-user-db.sh
+COPY --chown=postgres docker/postgres/init-user-db.sh /docker-entrypoint-initdb.d/init-user-db.sh

@@ -12,6 +12,11 @@ from queries import q_main
 
 hostname = socket.gethostname()
 
+user_files_root_dir = 'users_files'
+
+if not os.path.exists(user_files_root_dir):
+    os.makedirs(user_files_root_dir)
+
 l_directory = ['users_files/hd']
 for dir in l_directory:
     if not os.path.exists(dir):

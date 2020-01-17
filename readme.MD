@@ -2,6 +2,8 @@
 
 Welcome to the project, currently under development.
 
+To run the application with docker compose ?
+
 #### todo's:
 * update ticket headers
     * categories

@@ -10,6 +10,8 @@ COPY src/app .
 
 COPY docker/flask/wait-for-it.sh .
 
+RUN chmod +x wait-for-it.sh
+
 COPY docker/flask/uwsgi.ini .
 
 # CMD ["./wait-for-it.sh", "postgres:5432", "--", "python", "run.py"]

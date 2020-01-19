@@ -14,13 +14,11 @@ hostname = socket.gethostname()
 
 user_files_root_dir = 'users_files'
 
-if not os.path.exists(user_files_root_dir):
-    os.makedirs(user_files_root_dir)
-
-l_directory = ['users_files/hd']
+l_directory = ['hd']
 for dir in l_directory:
-    if not os.path.exists(dir):
-        os.makedirs(dir)
+    full_path = os.path.join(user_files_root_dir, dir)
+    if not os.path.exists(full_path):
+        os.makedirs(full_path)
 
 app = flask.Flask('erpy')
 app.secret_key = os.environ['SECRET_KEY']

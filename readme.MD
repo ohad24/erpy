@@ -2,7 +2,7 @@
 
 Welcome to the project, currently under development.
 
-#####run stack using docker compose:
+##### run stack using docker compose:
 
 * download the repo
     
@@ -16,7 +16,7 @@ Welcome to the project, currently under development.
     docker-compose up
     ```
 
-#####sql schema:
+##### sql schema:
 ![sql_schema](schema.png)
 
 
